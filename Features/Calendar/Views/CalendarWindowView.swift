@@ -44,12 +44,13 @@ struct CalendarWindowView: View {
         HStack(spacing: 12) {
             Picker("年份", selection: Binding<Int>(get: { viewModel.displayYear }, set: { viewModel.selectYear($0) })) {
                 ForEach(viewModel.years, id: \.self) { year in
-                    Text("\(year)").tag(year)
+                    Text(verbatim: String(year)).tag(year)
                 }
             }
             .pickerStyle(.menu)
+            .labelsHidden()
             .colorScheme(.light)
-            .frame(width: 80)
+            .frame(width: 76)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
 
@@ -158,11 +159,11 @@ private struct CalendarDayCellView: View {
                         .padding(3)
                 }
 
-                VStack(spacing: 2) {
-                    Spacer(minLength: 8)
+                VStack(spacing: 0) {
+                    Spacer(minLength: 4)
 
                     Text(day.solarText)
-                        .font(.system(size: 18, weight: .medium))
+                        .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(primaryTextColor)
 
                     Text(day.secondaryText)
@@ -171,11 +172,11 @@ private struct CalendarDayCellView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
 
-                    Spacer(minLength: 6)
+                    Spacer(minLength: 2)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .frame(height: 58)
+            .frame(height: 44)
             .contentShape(Rectangle())
             .overlay {
                 RoundedRectangle(cornerRadius: 6, style: .continuous)

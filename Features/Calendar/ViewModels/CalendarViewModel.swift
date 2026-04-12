@@ -53,6 +53,12 @@ final class CalendarViewModel: ObservableObject {
         components.day = 1
         if let date = CalendarGridBuilder.calendar.date(from: components) {
             displayDate = date.startOfMonth(using: CalendarGridBuilder.calendar)
+            var selComponents = CalendarGridBuilder.calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: selectedDate)
+            selComponents.year = year
+            if let newSel = CalendarGridBuilder.calendar.date(from: selComponents) {
+                selectedDate = newSel
+                syncSelectedDateURL()
+            }
             Task { await reload() }
         }
     }
@@ -60,12 +66,20 @@ final class CalendarViewModel: ObservableObject {
     func goToPreviousMonth() {
         guard let date = CalendarGridBuilder.calendar.date(byAdding: .month, value: -1, to: displayDate) else { return }
         displayDate = date.startOfMonth(using: CalendarGridBuilder.calendar)
+        if let newSelected = CalendarGridBuilder.calendar.date(byAdding: .month, value: -1, to: selectedDate) {
+            selectedDate = newSelected
+            syncSelectedDateURL()
+        }
         Task { await reload() }
     }
 
     func goToNextMonth() {
         guard let date = CalendarGridBuilder.calendar.date(byAdding: .month, value: 1, to: displayDate) else { return }
         displayDate = date.startOfMonth(using: CalendarGridBuilder.calendar)
+        if let newSelected = CalendarGridBuilder.calendar.date(byAdding: .month, value: 1, to: selectedDate) {
+            selectedDate = newSelected
+            syncSelectedDateURL()
+        }
         Task { await reload() }
     }
 
@@ -74,6 +88,7 @@ final class CalendarViewModel: ObservableObject {
         let today = Date()
         selectedDate = today
         displayDate = today.startOfMonth(using: CalendarGridBuilder.calendar)
+        syncSelectedDateURL()
         Task { await reload() }
     }
 
@@ -96,6 +111,12 @@ final class CalendarViewModel: ObservableObject {
         selectedDate = date
         displayDate = date.startOfMonth(using: CalendarGridBuilder.calendar)
         Task { await reload() }
+    }
+
+    private func syncSelectedDateURL() {
+        if let url = AppRoute.url(for: selectedDate) {
+            AppGroupSupport.setSelectedDateURLString(url.absoluteString)
+        }
     }
 
     func reload() async {
