@@ -19,7 +19,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			vl/RGrpNBEuRc5uJsM08MkjoYxM=
+			cHA+eV9ar2q1nvG5l+xZT+IeiLs=
 			</data>
 			<key>requirement</key>
 			<string>identifier "com.tom.LunaCalendar.WidgetExtension" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: pzq0331@gmail.com (A2EGB35FK7)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -42,7 +42,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Q1ptZZ12CiD+xw5lSeE/Nwgkw3Ri4FRLSJ9LMvYSMsM=
+			2+mWStg5H4tiKTQebUg1aKRsgYDrI1orImwsaL1Gj1Y=
 			</data>
 		</dict>
 	</dict>

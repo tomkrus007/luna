@@ -30,7 +30,7 @@ final class SettingsStore: ObservableObject {
 
     private let defaults: UserDefaults
 
-    private init(defaults: UserDefaults = AppGroupSupport.userDefaults) {
+    private init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         self.showIcon = defaults.object(forKey: Keys.showIcon) as? Bool ?? false
         self.showLunar = defaults.object(forKey: Keys.showLunar) as? Bool ?? true

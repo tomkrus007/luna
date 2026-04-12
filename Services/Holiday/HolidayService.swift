@@ -3,26 +3,6 @@ import Foundation
 import WidgetKit
 #endif
 
-enum SharedContainer {
-    static let appGroupIdentifier = "group.luna.calendar"
-
-    static func rootDirectory() -> URL {
-        let fileManager = FileManager.default
-
-        if let groupURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupIdentifier) {
-            let target = groupURL.appendingPathComponent("HolidayCache", isDirectory: true)
-            try? fileManager.createDirectory(at: target, withIntermediateDirectories: true)
-            return target
-        }
-
-        let applicationSupport = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-            ?? URL(fileURLWithPath: NSTemporaryDirectory())
-        let target = applicationSupport.appendingPathComponent("LunaCalendar/HolidayCache", isDirectory: true)
-        try? fileManager.createDirectory(at: target, withIntermediateDirectories: true)
-        return target
-    }
-}
-
 enum HolidayCacheStore {
     static func load(year: Int) -> [String: HolidayItem] {
         let url = fileURL(for: year)
@@ -41,8 +21,8 @@ enum HolidayCacheStore {
         let envelope = HolidayCacheEnvelope(year: year, updatedAt: .now, items: items.sorted { $0.dateString < $1.dateString })
         guard let data = try? makeEncoder().encode(envelope) else { return }
         try? data.write(to: url, options: .atomic)
-        AppGroupSupport.userDefaults.set(year, forKey: AppGroupSupport.holidayUpdatedYearKey)
-        AppGroupSupport.userDefaults.set(Date().timeIntervalSince1970, forKey: AppGroupSupport.holidayRefreshKey(for: year))
+        AppGroupSupport.setHolidayUpdatedYear(year)
+        AppGroupSupport.setLastHolidayRefresh(Date().timeIntervalSince1970, for: year)
         NotificationCenter.default.post(name: .holidayDataDidRefresh, object: nil, userInfo: ["year": year])
 #if canImport(WidgetKit)
         WidgetCenter.shared.reloadTimelines(ofKind: "LunaCalendarWidget")
@@ -112,8 +92,7 @@ actor HolidayService {
     }
 
     private func shouldRefresh(year: Int) -> Bool {
-        let lastRefresh = AppGroupSupport.userDefaults.double(forKey: AppGroupSupport.holidayRefreshKey(for: year))
-        guard lastRefresh > 0 else { return true }
+        guard let lastRefresh = AppGroupSupport.lastHolidayRefresh(for: year), lastRefresh > 0 else { return true }
         return Date().timeIntervalSince1970 - lastRefresh >= refreshInterval
     }
 

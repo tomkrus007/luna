@@ -79,7 +79,7 @@ final class CalendarViewModel: ObservableObject {
     func select(_ date: Date) {
         selectedDate = date
         if let url = AppRoute.url(for: date) {
-            AppGroupSupport.userDefaults.set(url.absoluteString, forKey: AppGroupSupport.selectedDateURLKey)
+            AppGroupSupport.setSelectedDateURLString(url.absoluteString)
         }
         let selectedMonth = date.startOfMonth(using: CalendarGridBuilder.calendar)
         if selectedMonth != displayDate {
