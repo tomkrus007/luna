@@ -1,6 +1,10 @@
 import SwiftUI
 
 struct CalendarWindowView: View {
+    private static let weekdayTitles = CalendarGridBuilder.weekdayTitles()
+    private static let headerColumns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
+    private static let dayColumns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
+
     @ObservedObject var viewModel: CalendarViewModel
     @ObservedObject var settingsStore: SettingsStore
     @State private var didPreloadHolidayData = false
@@ -83,11 +87,9 @@ struct CalendarWindowView: View {
     }
 
     private var weekdayHeader: some View {
-        let titles = CalendarGridBuilder.weekdayTitles()
-
-        return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 7), spacing: 0) {
-            ForEach(Array(titles.enumerated()), id: \.offset) { index, title in
-                Text(title)
+        LazyVGrid(columns: Self.headerColumns, spacing: 0) {
+            ForEach(Self.weekdayTitles.indices, id: \.self) { index in
+                Text(Self.weekdayTitles[index])
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(index == 0 || index == 6 ? Color.red : Color.secondary)
                     .frame(maxWidth: .infinity)
@@ -102,7 +104,7 @@ struct CalendarWindowView: View {
     }
 
     private var calendarGrid: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 7), spacing: 4) {
+        LazyVGrid(columns: Self.dayColumns, spacing: 4) {
             ForEach(viewModel.days) { day in
                 CalendarDayCellView(day: day) {
                     viewModel.select(day.date)
