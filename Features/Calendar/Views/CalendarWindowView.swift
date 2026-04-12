@@ -23,7 +23,7 @@ struct CalendarWindowView: View {
         .task {
             guard !didPreloadHolidayData else { return }
             didPreloadHolidayData = true
-            await viewModel.preloadHolidayData()
+            await viewModel.loadInitialDataIfNeeded()
         }
     }
 

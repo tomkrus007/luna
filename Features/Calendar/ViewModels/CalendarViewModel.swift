@@ -11,6 +11,7 @@ final class CalendarViewModel: ObservableObject {
 
     private var holidayMap: [String: HolidayItem] = [:]
     private var holidayRefreshTask: Task<Void, Never>?
+    private var rebuildTask: Task<Void, Never>?
 
     init(today: Date = .now) {
         self.displayDate = today.startOfMonth(using: CalendarGridBuilder.calendar)
@@ -21,11 +22,11 @@ final class CalendarViewModel: ObservableObject {
                 await self.reload()
             }
         }
-        Task { await reload() }
     }
 
     deinit {
         holidayRefreshTask?.cancel()
+        rebuildTask?.cancel()
     }
 
     var displayYear: Int {
@@ -103,13 +104,36 @@ final class CalendarViewModel: ObservableObject {
         rebuildDays()
     }
 
+    func loadInitialDataIfNeeded() async {
+        guard days.isEmpty else { return }
+        await reload()
+
+        let dateToPreload = displayDate
+        Task {
+            await HolidayService.shared.preloadAround(date: dateToPreload)
+        }
+    }
+
     func preloadHolidayData() async {
         await HolidayService.shared.preloadAround(date: displayDate)
         await reload()
     }
 
     private func rebuildDays() {
-        days = CalendarGridBuilder.makeMonthGrid(displayDate: displayDate, selectedDate: selectedDate, holidays: holidayMap)
+        let displayDate = displayDate
+        let selectedDate = selectedDate
+        let holidayMap = holidayMap
+
+        rebuildTask?.cancel()
+        rebuildTask = Task.detached(priority: .userInitiated) { [weak self, displayDate, selectedDate, holidayMap] in
+            let days = CalendarGridBuilder.makeMonthGrid(displayDate: displayDate, selectedDate: selectedDate, holidays: holidayMap)
+
+            await MainActor.run {
+                guard let self = self else { return }
+                guard self.displayDate == displayDate, self.selectedDate == selectedDate, self.holidayMap == holidayMap else { return }
+                self.days = days
+            }
+        }
     }
 }
 
