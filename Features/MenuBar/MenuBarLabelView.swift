@@ -2,15 +2,28 @@ import SwiftUI
 
 struct MenuBarLabelView: View {
     @ObservedObject var settingsStore: SettingsStore
+    @State private var currentDate = Date()
 
     var body: some View {
-        TimelineView(.periodic(from: .now, by: settingsStore.showTime ? 1 : 60)) { context in
+        Group {
             if settingsStore.showIcon {
                 menuBarIcon
             } else {
-                Text(labelText(for: context.date))
+                Text(labelText(for: currentDate))
                     .font(.system(size: 12, weight: .medium, design: .rounded))
+                    .monospacedDigit()
                     .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
+            }
+        }
+        .onAppear {
+            currentDate = Date()
+        }
+        .task(id: settingsStore.showTime) {
+            while !Task.isCancelled {
+                currentDate = Date()
+                let interval = settingsStore.showTime ? 1.0 : 60.0
+                try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
             }
         }
     }
