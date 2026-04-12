@@ -35,19 +35,20 @@ struct MenuBarLabelView: View {
         if settingsStore.showLunar {
             parts.append(CalendarConverter.getStatusBarLunarText(for: date))
         } else {
-            let formatter = DateFormatter()
-            formatter.calendar = CalendarGridBuilder.calendar
-            formatter.locale = Locale(identifier: "zh_CN")
-            formatter.dateFormat = "M月d日"
-            parts.append(formatter.string(from: date))
+            let calendar = CalendarGridBuilder.calendar
+            let components = calendar.dateComponents([.month, .day], from: date)
+            let month = components.month ?? 0
+            let day = components.day ?? 0
+            parts.append("\(month)月\(day)日")
         }
 
         if settingsStore.showTime {
-            let formatter = DateFormatter()
-            formatter.calendar = CalendarGridBuilder.calendar
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            formatter.dateFormat = "HH:mm:ss"
-            parts.append(formatter.string(from: date))
+            let calendar = CalendarGridBuilder.calendar
+            let components = calendar.dateComponents([.hour, .minute, .second], from: date)
+            let hour = components.hour ?? 0
+            let minute = components.minute ?? 0
+            let second = components.second ?? 0
+            parts.append(String(format: "%02d:%02d:%02d", hour, minute, second))
         }
 
         if settingsStore.showWeekday {
