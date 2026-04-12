@@ -33,11 +33,10 @@ final class CalendarViewModel: ObservableObject {
     }
 
     var displayMonthText: String {
-        let formatter = DateFormatter()
-        formatter.calendar = CalendarGridBuilder.calendar
-        formatter.locale = Locale(identifier: "zh_CN")
-        formatter.dateFormat = "MM-dd"
-        return formatter.string(from: selectedDate)
+        let components = CalendarGridBuilder.calendar.dateComponents([.month, .day], from: selectedDate)
+        let month = components.month ?? 0
+        let day = components.day ?? 0
+        return String(format: "%02d-%02d", month, day)
     }
 
     var isDisplayingToday: Bool {
