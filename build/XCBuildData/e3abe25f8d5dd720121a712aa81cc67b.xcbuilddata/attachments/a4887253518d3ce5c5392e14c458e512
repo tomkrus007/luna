@@ -1,0 +1,99 @@
+{
+  "" : {
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidgetExtension-primary.dia",
+    "emit-module-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidgetExtension-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidgetExtension-primary-emit-module.dia",
+    "pch" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidgetExtension-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidgetExtension-primary.swiftdeps"
+  },
+  "/Users/tom/Documents/code/gpt/luna/Services/CalendarEngine/CalendarConverter.swift" : {
+    "const-values" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarConverter.swiftconstvalues",
+    "dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarConverter.d",
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarConverter.dia",
+    "index-unit-output-path" : "/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarConverter.o",
+    "llvm-bc" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarConverter.bc",
+    "object" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarConverter.o",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarConverter.swiftdeps",
+    "swiftmodule" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarConverter~partial.swiftmodule"
+  },
+  "/Users/tom/Documents/code/gpt/luna/Services/CalendarEngine/CalendarGridBuilder.swift" : {
+    "const-values" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarGridBuilder.swiftconstvalues",
+    "dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarGridBuilder.d",
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarGridBuilder.dia",
+    "index-unit-output-path" : "/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarGridBuilder.o",
+    "llvm-bc" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarGridBuilder.bc",
+    "object" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarGridBuilder.o",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarGridBuilder.swiftdeps",
+    "swiftmodule" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarGridBuilder~partial.swiftmodule"
+  },
+  "/Users/tom/Documents/code/gpt/luna/Services/Holiday/HolidayService.swift" : {
+    "const-values" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/HolidayService.swiftconstvalues",
+    "dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/HolidayService.d",
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/HolidayService.dia",
+    "index-unit-output-path" : "/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/HolidayService.o",
+    "llvm-bc" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/HolidayService.bc",
+    "object" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/HolidayService.o",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/HolidayService.swiftdeps",
+    "swiftmodule" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/HolidayService~partial.swiftmodule"
+  },
+  "/Users/tom/Documents/code/gpt/luna/Shared/AppGroupSupport.swift" : {
+    "const-values" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppGroupSupport.swiftconstvalues",
+    "dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppGroupSupport.d",
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppGroupSupport.dia",
+    "index-unit-output-path" : "/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppGroupSupport.o",
+    "llvm-bc" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppGroupSupport.bc",
+    "object" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppGroupSupport.o",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppGroupSupport.swiftdeps",
+    "swiftmodule" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppGroupSupport~partial.swiftmodule"
+  },
+  "/Users/tom/Documents/code/gpt/luna/Shared/AppRoute.swift" : {
+    "const-values" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppRoute.swiftconstvalues",
+    "dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppRoute.d",
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppRoute.dia",
+    "index-unit-output-path" : "/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppRoute.o",
+    "llvm-bc" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppRoute.bc",
+    "object" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppRoute.o",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppRoute.swiftdeps",
+    "swiftmodule" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/AppRoute~partial.swiftmodule"
+  },
+  "/Users/tom/Documents/code/gpt/luna/Shared/Models/CalendarModels.swift" : {
+    "const-values" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarModels.swiftconstvalues",
+    "dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarModels.d",
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarModels.dia",
+    "index-unit-output-path" : "/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarModels.o",
+    "llvm-bc" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarModels.bc",
+    "object" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarModels.o",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarModels.swiftdeps",
+    "swiftmodule" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarModels~partial.swiftmodule"
+  },
+  "/Users/tom/Documents/code/gpt/luna/WidgetExtension/LunaCalendarWidget.swift" : {
+    "const-values" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidget.swiftconstvalues",
+    "dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidget.d",
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidget.dia",
+    "index-unit-output-path" : "/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidget.o",
+    "llvm-bc" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidget.bc",
+    "object" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidget.o",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidget.swiftdeps",
+    "swiftmodule" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/LunaCalendarWidget~partial.swiftmodule"
+  },
+  "/Users/tom/Documents/code/gpt/luna/WidgetExtension/Providers/CalendarWidgetProvider.swift" : {
+    "const-values" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetProvider.swiftconstvalues",
+    "dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetProvider.d",
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetProvider.dia",
+    "index-unit-output-path" : "/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetProvider.o",
+    "llvm-bc" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetProvider.bc",
+    "object" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetProvider.o",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetProvider.swiftdeps",
+    "swiftmodule" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetProvider~partial.swiftmodule"
+  },
+  "/Users/tom/Documents/code/gpt/luna/WidgetExtension/Views/CalendarWidgetView.swift" : {
+    "const-values" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetView.swiftconstvalues",
+    "dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetView.d",
+    "diagnostics" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetView.dia",
+    "index-unit-output-path" : "/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetView.o",
+    "llvm-bc" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetView.bc",
+    "object" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetView.o",
+    "swift-dependencies" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetView.swiftdeps",
+    "swiftmodule" : "/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendarWidgetExtension.build/Objects-normal/x86_64/CalendarWidgetView~partial.swiftmodule"
+  }
+}

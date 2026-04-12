@@ -1,0 +1,16 @@
+/Users/tom/Documents/code/gpt/luna/App/AppDelegate.swift
+/Users/tom/Documents/code/gpt/luna/Shared/AppGroupSupport.swift
+/Users/tom/Documents/code/gpt/luna/Shared/AppRoute.swift
+/Users/tom/Documents/code/gpt/luna/Services/CalendarEngine/CalendarConverter.swift
+/Users/tom/Documents/code/gpt/luna/Services/CalendarEngine/CalendarGridBuilder.swift
+/Users/tom/Documents/code/gpt/luna/Shared/Models/CalendarModels.swift
+/Users/tom/Documents/code/gpt/luna/Features/Settings/CalendarSettingsView.swift
+/Users/tom/Documents/code/gpt/luna/Features/Calendar/ViewModels/CalendarViewModel.swift
+/Users/tom/Documents/code/gpt/luna/Features/Calendar/Controllers/CalendarWindowController.swift
+/Users/tom/Documents/code/gpt/luna/Features/Calendar/Views/CalendarWindowView.swift
+/Users/tom/Documents/code/gpt/luna/Services/Holiday/HolidayService.swift
+/Users/tom/Documents/code/gpt/luna/Services/System/LaunchAtLoginService.swift
+/Users/tom/Documents/code/gpt/luna/App/LunaCalendarApp.swift
+/Users/tom/Documents/code/gpt/luna/Features/MenuBar/MenuBarLabelView.swift
+/Users/tom/Documents/code/gpt/luna/Features/Settings/SettingsStore.swift
+/Users/tom/Documents/code/gpt/luna/build/LunaCalendar.build/Debug/LunaCalendar.build/DerivedSources/GeneratedAssetSymbols.swift

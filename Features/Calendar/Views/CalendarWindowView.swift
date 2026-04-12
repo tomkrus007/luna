@@ -1,0 +1,190 @@
+import SwiftUI
+
+struct CalendarWindowView: View {
+    @ObservedObject var viewModel: CalendarViewModel
+    @ObservedObject var settingsStore: SettingsStore
+    @State private var didPreloadHolidayData = false
+
+    var body: some View {
+        VStack(spacing: 0) {
+            toolbar
+            weekdayHeader
+            calendarGrid
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(Color(nsColor: .windowBackgroundColor))
+        )
+        .frame(width: 360)
+        .task {
+            guard !didPreloadHolidayData else { return }
+            didPreloadHolidayData = true
+            await viewModel.preloadHolidayData()
+        }
+    }
+
+    private var toolbar: some View {
+        HStack(spacing: 12) {
+            Picker("年份", selection: Binding<Int>(get: { viewModel.displayYear }, set: { viewModel.selectYear($0) })) {
+                ForEach(viewModel.years, id: \.self) { year in
+                    Text("\(year)").tag(year)
+                }
+            }
+            .pickerStyle(.menu)
+            .colorScheme(.light)
+            .frame(width: 80)
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+
+            Button(action: viewModel.goToPreviousMonth) {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 15, weight: .bold))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(.white.opacity(0.9))
+
+            Text(viewModel.displayMonthText)
+                .font(.system(size: 18, weight: .bold, design: .rounded))
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+
+            Button(action: viewModel.goToNextMonth) {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 15, weight: .bold))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(.white.opacity(0.9))
+
+            SettingsLink {
+                Image(systemName: "gearshape.fill")
+                    .font(.system(size: 15))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(.white.opacity(0.8))
+
+            Button("返回今天", action: viewModel.goToToday)
+                .buttonStyle(.plain)
+                .font(.system(size: 12, weight: .medium))
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background(viewModel.isDisplayingToday ? Color.white.opacity(0.35) : Color.white.opacity(0.92))
+                .foregroundStyle(viewModel.isDisplayingToday ? Color.white.opacity(0.9) : .black)
+                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .stroke(Color.white.opacity(viewModel.isDisplayingToday ? 0.15 : 0), lineWidth: 1)
+                }
+                .disabled(viewModel.isDisplayingToday)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .background(Color(red: 54/255, green: 111/255, blue: 176/255))
+        .foregroundStyle(.white)
+    }
+
+    private var weekdayHeader: some View {
+        let titles = CalendarGridBuilder.weekdayTitles()
+
+        return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 7), spacing: 0) {
+            ForEach(Array(titles.enumerated()), id: \.offset) { index, title in
+                Text(title)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(index == 0 || index == 6 ? Color.red : Color.secondary)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+            }
+        }
+        .padding(.horizontal, 10)
+        .background(Color(white: 0.96))
+        .overlay(alignment: .bottom) {
+            Divider().opacity(0.5)
+        }
+    }
+
+    private var calendarGrid: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 7), spacing: 4) {
+            ForEach(viewModel.days) { day in
+                CalendarDayCellView(day: day) {
+                    viewModel.select(day.date)
+                }
+            }
+        }
+        .padding(10)
+    }
+}
+
+private struct CalendarDayCellView: View {
+    let day: CalendarDayItem
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            ZStack(alignment: .topLeading) {
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(backgroundColor)
+
+                if let holidayType = day.holidayType {
+                    Text(holidayType.badgeText)
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 4)
+                        .padding(.vertical, 2)
+                        .background(holidayType == .holiday ? Color.red : Color(white: 0.6))
+                        .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
+                        .padding(3)
+                }
+
+                VStack(spacing: 2) {
+                    Spacer(minLength: 8)
+
+                    Text(day.solarText)
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundStyle(primaryTextColor)
+
+                    Text(day.secondaryText)
+                        .font(.system(size: 10, weight: .regular))
+                        .foregroundStyle(secondaryTextColor)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+
+                    Spacer(minLength: 6)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            .frame(height: 58)
+            .contentShape(Rectangle())
+            .overlay {
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .stroke(day.isSelected ? Color.orange.opacity(0.25) : Color.clear, lineWidth: 1)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var backgroundColor: Color {
+        if day.isSelected {
+            return Color(red: 247/255, green: 181/255, blue: 0/255) // #F7B500
+        }
+        if day.holidayType == .holiday {
+            return Color.red.opacity(0.04)
+        }
+        if day.holidayType == .workday {
+            return Color.gray.opacity(0.05)
+        }
+        return .clear
+    }
+
+    private var primaryTextColor: Color {
+        if day.isSelected { return .white }
+        if !day.isCurrentMonth { return Color(white: 0.75) }
+        if day.isWeekend { return .red }
+        return .primary
+    }
+
+    private var secondaryTextColor: Color {
+        if day.isSelected { return .white.opacity(0.9) }
+        if !day.isCurrentMonth { return Color(white: 0.75) }
+        if day.festivalText != nil { return .red }
+        return .secondary
+    }
+}

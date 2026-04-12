@@ -1,0 +1,649 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0424293F81C914F5E4B70C2F /* CalendarConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742F14FB95A70FA5F7DEDC3A /* CalendarConverter.swift */; };
+		0F2906A6BD05AE8AB8288D38 /* CalendarModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E84A5871600C3735BAADE /* CalendarModels.swift */; };
+		10240FBA478EDFD4567A8136 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7521699C59319B8A6858ABD0 /* AppRoute.swift */; };
+		179EF43B9D0CA49FC3A5494D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9B6DE7FCDFE98681D95462 /* AppDelegate.swift */; };
+		3292BBF494D3931F518CD1AA /* HolidayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEFBE5A7D6E87619F72CE06 /* HolidayService.swift */; };
+		330AD1DBF3595F4F1F864E36 /* HolidayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEFBE5A7D6E87619F72CE06 /* HolidayService.swift */; };
+		3EDA4C4A8E61CE81F0157DAF /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F92D0C6FB0D7B6E1D21E7D /* SettingsStore.swift */; };
+		45BE6EFFD67EB00745180B65 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11F5162A8F4572E55BA1D33 /* CalendarViewModel.swift */; };
+		503B440BE5D829C3164336A1 /* CalendarSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F2FBD242F810B3F7801B33 /* CalendarSettingsView.swift */; };
+		5EF74BF888ED328D176AF77F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CACE06B676CF93DC4C1E4DC /* Assets.xcassets */; };
+		696DA1338399DF361F66ADC8 /* LunaCalendarWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DE9D5C0E7B7FE272A2F2F286 /* LunaCalendarWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6A708C8E4750A9B116AE8B30 /* AppGroupSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AAC312978292345DFB320F /* AppGroupSupport.swift */; };
+		7A8734FA076E6CAC9F36D1FB /* LunaCalendarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7E865A6EB77AD99E11AFA3 /* LunaCalendarApp.swift */; };
+		8EC84120E7128B88DFB9CC32 /* LaunchAtLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA856A7F709E08C7CE2FFB59 /* LaunchAtLoginService.swift */; };
+		94CB95BDD4745E578BBFCDFA /* LunaCalendarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3A3C3B6C87987835A8385F /* LunaCalendarWidget.swift */; };
+		A05DCE2016D5207679AE7254 /* CalendarGridBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED824B620DA7110668010865 /* CalendarGridBuilder.swift */; };
+		B05E5C9C1CA11847E9DE3361 /* CalendarWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF347EE94A6B641B5D1AD3DF /* CalendarWidgetView.swift */; };
+		B2EDA4BA52EC1E55F7284317 /* CalendarWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0EE8182BB259578D428BE1 /* CalendarWindowView.swift */; };
+		BF58A5927411182D1AF9A7D3 /* MenuBarLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300D0DB152FCC7B8B6119139 /* MenuBarLabelView.swift */; };
+		C33817FB64A601FC0EDD9FB8 /* CalendarModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E84A5871600C3735BAADE /* CalendarModels.swift */; };
+		C76F284B3EDAB34DBA942FB7 /* CalendarConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742F14FB95A70FA5F7DEDC3A /* CalendarConverter.swift */; };
+		CDABB710536E794C651A3C8A /* CalendarWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C1AB5F6E01CA0856B1F3A0 /* CalendarWidgetProvider.swift */; };
+		D0E749ECD02030C4FE7117B6 /* AppGroupSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AAC312978292345DFB320F /* AppGroupSupport.swift */; };
+		D2DF0C3D2AD1ED50A06C4AAE /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7521699C59319B8A6858ABD0 /* AppRoute.swift */; };
+		E78F4B54A885AF95F7EAD89E /* CalendarWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F807CA8823255FBF13DBB58 /* CalendarWindowController.swift */; };
+		F644AC188B36DAA41CEF351A /* CalendarGridBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED824B620DA7110668010865 /* CalendarGridBuilder.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3D3729A567EB3357FE00F490 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB86365D0ED9FC625B77290D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9C4D713F55F5F00AE6FFE03D;
+			remoteInfo = LunaCalendarWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1F422F1F80AE5E487AC71DD1 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				696DA1338399DF361F66ADC8 /* LunaCalendarWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0F3A3C3B6C87987835A8385F /* LunaCalendarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunaCalendarWidget.swift; sourceTree = "<group>"; };
+		1F807CA8823255FBF13DBB58 /* CalendarWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWindowController.swift; sourceTree = "<group>"; };
+		300D0DB152FCC7B8B6119139 /* MenuBarLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarLabelView.swift; sourceTree = "<group>"; };
+		3CACE06B676CF93DC4C1E4DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5754731F176097ACB2828E11 /* LunaCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunaCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		742F14FB95A70FA5F7DEDC3A /* CalendarConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarConverter.swift; sourceTree = "<group>"; };
+		7521699C59319B8A6858ABD0 /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
+		9C9B6DE7FCDFE98681D95462 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A0C1AB5F6E01CA0856B1F3A0 /* CalendarWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidgetProvider.swift; sourceTree = "<group>"; };
+		AA0EE8182BB259578D428BE1 /* CalendarWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWindowView.swift; sourceTree = "<group>"; };
+		BA856A7F709E08C7CE2FFB59 /* LaunchAtLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginService.swift; sourceTree = "<group>"; };
+		BF347EE94A6B641B5D1AD3DF /* CalendarWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidgetView.swift; sourceTree = "<group>"; };
+		CDEFBE5A7D6E87619F72CE06 /* HolidayService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayService.swift; sourceTree = "<group>"; };
+		DE9D5C0E7B7FE272A2F2F286 /* LunaCalendarWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LunaCalendarWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4F92D0C6FB0D7B6E1D21E7D /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		E6AAC312978292345DFB320F /* AppGroupSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupSupport.swift; sourceTree = "<group>"; };
+		ED824B620DA7110668010865 /* CalendarGridBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarGridBuilder.swift; sourceTree = "<group>"; };
+		EF3E84A5871600C3735BAADE /* CalendarModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModels.swift; sourceTree = "<group>"; };
+		F11F5162A8F4572E55BA1D33 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		F3F2FBD242F810B3F7801B33 /* CalendarSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSettingsView.swift; sourceTree = "<group>"; };
+		FF7E865A6EB77AD99E11AFA3 /* LunaCalendarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunaCalendarApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		09FF259602CF64E405C02118 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1F807CA8823255FBF13DBB58 /* CalendarWindowController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		0E15FD769B20B91C4F03A882 /* WidgetExtension */ = {
+			isa = PBXGroup;
+			children = (
+				0F3A3C3B6C87987835A8385F /* LunaCalendarWidget.swift */,
+				83DFA7513F07A967A609BE28 /* Providers */,
+				81EE62D673E00E3F37EE4AB9 /* Views */,
+			);
+			path = WidgetExtension;
+			sourceTree = "<group>";
+		};
+		161EAE6A003D89132015619A /* System */ = {
+			isa = PBXGroup;
+			children = (
+				BA856A7F709E08C7CE2FFB59 /* LaunchAtLoginService.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		3286CB27EA4E6E612112D200 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F3F2FBD242F810B3F7801B33 /* CalendarSettingsView.swift */,
+				E4F92D0C6FB0D7B6E1D21E7D /* SettingsStore.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		53849F96C01452B38E73B057 /* CalendarEngine */ = {
+			isa = PBXGroup;
+			children = (
+				742F14FB95A70FA5F7DEDC3A /* CalendarConverter.swift */,
+				ED824B620DA7110668010865 /* CalendarGridBuilder.swift */,
+			);
+			path = CalendarEngine;
+			sourceTree = "<group>";
+		};
+		62BBA208E2C22239187BCF3D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F11F5162A8F4572E55BA1D33 /* CalendarViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		63F7ABD992DB07FBEDA5B80D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3CACE06B676CF93DC4C1E4DC /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6CAF9EF1878AC94E021E83E4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA0EE8182BB259578D428BE1 /* CalendarWindowView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6CB599344EB63D892B6B091C /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				FD2D31494F4128BF46080977 /* Calendar */,
+				E960F6403F5BEAE8D8CDB0FA /* MenuBar */,
+				3286CB27EA4E6E612112D200 /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		81EE62D673E00E3F37EE4AB9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BF347EE94A6B641B5D1AD3DF /* CalendarWidgetView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		828459936C3C9733065A507B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9C9B6DE7FCDFE98681D95462 /* AppDelegate.swift */,
+				FF7E865A6EB77AD99E11AFA3 /* LunaCalendarApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		83DFA7513F07A967A609BE28 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				A0C1AB5F6E01CA0856B1F3A0 /* CalendarWidgetProvider.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		BB5C8236340AA30D89D14144 = {
+			isa = PBXGroup;
+			children = (
+				828459936C3C9733065A507B /* App */,
+				6CB599344EB63D892B6B091C /* Features */,
+				63F7ABD992DB07FBEDA5B80D /* Resources */,
+				DDC33C08E635CF6CBC8FB0FC /* Services */,
+				D2F248545973E89487974738 /* Shared */,
+				0E15FD769B20B91C4F03A882 /* WidgetExtension */,
+				D4F8B3F3A73B9D8B7060D747 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D2F248545973E89487974738 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				E6AAC312978292345DFB320F /* AppGroupSupport.swift */,
+				7521699C59319B8A6858ABD0 /* AppRoute.swift */,
+				FE814B672DD11E79FE6EC0D2 /* Models */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		D4F8B3F3A73B9D8B7060D747 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5754731F176097ACB2828E11 /* LunaCalendar.app */,
+				DE9D5C0E7B7FE272A2F2F286 /* LunaCalendarWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA542CEC3C7EA72D4066B30C /* Holiday */ = {
+			isa = PBXGroup;
+			children = (
+				CDEFBE5A7D6E87619F72CE06 /* HolidayService.swift */,
+			);
+			path = Holiday;
+			sourceTree = "<group>";
+		};
+		DDC33C08E635CF6CBC8FB0FC /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				53849F96C01452B38E73B057 /* CalendarEngine */,
+				DA542CEC3C7EA72D4066B30C /* Holiday */,
+				161EAE6A003D89132015619A /* System */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E960F6403F5BEAE8D8CDB0FA /* MenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				300D0DB152FCC7B8B6119139 /* MenuBarLabelView.swift */,
+			);
+			path = MenuBar;
+			sourceTree = "<group>";
+		};
+		FD2D31494F4128BF46080977 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				09FF259602CF64E405C02118 /* Controllers */,
+				62BBA208E2C22239187BCF3D /* ViewModels */,
+				6CAF9EF1878AC94E021E83E4 /* Views */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		FE814B672DD11E79FE6EC0D2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EF3E84A5871600C3735BAADE /* CalendarModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9C4D713F55F5F00AE6FFE03D /* LunaCalendarWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2A2E146A6EB29F29F18C949 /* Build configuration list for PBXNativeTarget "LunaCalendarWidgetExtension" */;
+			buildPhases = (
+				5286A3F0F90199600DEC2E87 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LunaCalendarWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = LunaCalendarWidgetExtension;
+			productReference = DE9D5C0E7B7FE272A2F2F286 /* LunaCalendarWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		DF32ED9D840135A6313E2E6F /* LunaCalendar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82C3EDF40EF3DF11085F831C /* Build configuration list for PBXNativeTarget "LunaCalendar" */;
+			buildPhases = (
+				96A2B2818F446D728BFBBA34 /* Sources */,
+				42DBA5241273D68110767ECA /* Resources */,
+				1F422F1F80AE5E487AC71DD1 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				29538388941AEB7F0F4310AF /* PBXTargetDependency */,
+			);
+			name = LunaCalendar;
+			packageProductDependencies = (
+			);
+			productName = LunaCalendar;
+			productReference = 5754731F176097ACB2828E11 /* LunaCalendar.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EB86365D0ED9FC625B77290D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					9C4D713F55F5F00AE6FFE03D = {
+						ProvisioningStyle = Automatic;
+					};
+					DF32ED9D840135A6313E2E6F = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 67C3FF4C9DFFEA723D6E2972 /* Build configuration list for PBXProject "LunaCalendar" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = BB5C8236340AA30D89D14144;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D4F8B3F3A73B9D8B7060D747 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DF32ED9D840135A6313E2E6F /* LunaCalendar */,
+				9C4D713F55F5F00AE6FFE03D /* LunaCalendarWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		42DBA5241273D68110767ECA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EF74BF888ED328D176AF77F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5286A3F0F90199600DEC2E87 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A708C8E4750A9B116AE8B30 /* AppGroupSupport.swift in Sources */,
+				10240FBA478EDFD4567A8136 /* AppRoute.swift in Sources */,
+				0424293F81C914F5E4B70C2F /* CalendarConverter.swift in Sources */,
+				F644AC188B36DAA41CEF351A /* CalendarGridBuilder.swift in Sources */,
+				C33817FB64A601FC0EDD9FB8 /* CalendarModels.swift in Sources */,
+				CDABB710536E794C651A3C8A /* CalendarWidgetProvider.swift in Sources */,
+				B05E5C9C1CA11847E9DE3361 /* CalendarWidgetView.swift in Sources */,
+				330AD1DBF3595F4F1F864E36 /* HolidayService.swift in Sources */,
+				94CB95BDD4745E578BBFCDFA /* LunaCalendarWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96A2B2818F446D728BFBBA34 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				179EF43B9D0CA49FC3A5494D /* AppDelegate.swift in Sources */,
+				D0E749ECD02030C4FE7117B6 /* AppGroupSupport.swift in Sources */,
+				D2DF0C3D2AD1ED50A06C4AAE /* AppRoute.swift in Sources */,
+				C76F284B3EDAB34DBA942FB7 /* CalendarConverter.swift in Sources */,
+				A05DCE2016D5207679AE7254 /* CalendarGridBuilder.swift in Sources */,
+				0F2906A6BD05AE8AB8288D38 /* CalendarModels.swift in Sources */,
+				503B440BE5D829C3164336A1 /* CalendarSettingsView.swift in Sources */,
+				45BE6EFFD67EB00745180B65 /* CalendarViewModel.swift in Sources */,
+				E78F4B54A885AF95F7EAD89E /* CalendarWindowController.swift in Sources */,
+				B2EDA4BA52EC1E55F7284317 /* CalendarWindowView.swift in Sources */,
+				3292BBF494D3931F518CD1AA /* HolidayService.swift in Sources */,
+				8EC84120E7128B88DFB9CC32 /* LaunchAtLoginService.swift in Sources */,
+				7A8734FA076E6CAC9F36D1FB /* LunaCalendarApp.swift in Sources */,
+				BF58A5927411182D1AF9A7D3 /* MenuBarLabelView.swift in Sources */,
+				3EDA4C4A8E61CE81F0157DAF /* SettingsStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		29538388941AEB7F0F4310AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9C4D713F55F5F00AE6FFE03D /* LunaCalendarWidgetExtension */;
+			targetProxy = 3D3729A567EB3357FE00F490 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		53534DCFA32225B49C2A9351 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = LunaCalendar;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		5A5B5A3B1932D2079AE1B32B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Config/LunaCalendar.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DAHGUSBF6W;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/App-Info.plist";
+				INFOPLIST_KEY_LSUIELEMENT = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tom.LunaCalendar;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		68CC9E1F825E97FC60EB761F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Config/LunaCalendarWidget.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DAHGUSBF6W;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/Widget-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tom.LunaCalendar.WidgetExtension;
+				PRODUCT_NAME = LunaCalendarWidgetExtension;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		6C8159D93EAE9AED7AFE9941 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = LunaCalendar;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		B53E8CB9F73D0EE02617F6CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Config/LunaCalendar.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DAHGUSBF6W;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/App-Info.plist";
+				INFOPLIST_KEY_LSUIELEMENT = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tom.LunaCalendar;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E4123271D3D700D97EAFED77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = Config/LunaCalendarWidget.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DAHGUSBF6W;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/Widget-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tom.LunaCalendar.WidgetExtension;
+				PRODUCT_NAME = LunaCalendarWidgetExtension;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		67C3FF4C9DFFEA723D6E2972 /* Build configuration list for PBXProject "LunaCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6C8159D93EAE9AED7AFE9941 /* Debug */,
+				53534DCFA32225B49C2A9351 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		82C3EDF40EF3DF11085F831C /* Build configuration list for PBXNativeTarget "LunaCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A5B5A3B1932D2079AE1B32B /* Debug */,
+				B53E8CB9F73D0EE02617F6CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E2A2E146A6EB29F29F18C949 /* Build configuration list for PBXNativeTarget "LunaCalendarWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4123271D3D700D97EAFED77 /* Debug */,
+				68CC9E1F825E97FC60EB761F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EB86365D0ED9FC625B77290D /* Project object */;
+}
