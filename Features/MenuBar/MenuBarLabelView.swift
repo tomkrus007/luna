@@ -59,6 +59,12 @@ struct MenuBarLabelView: View {
             parts.append("\(month)月\(day)日")
         }
 
+        if settingsStore.showWeekday {
+            let weekday = CalendarGridBuilder.calendar.component(.weekday, from: date) - 1
+            let text = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday]
+            parts.append(text)
+        }
+
         if settingsStore.showTime {
             let calendar = CalendarGridBuilder.calendar
             let components = calendar.dateComponents([.hour, .minute, .second], from: date)
@@ -66,12 +72,6 @@ struct MenuBarLabelView: View {
             let minute = components.minute ?? 0
             let second = components.second ?? 0
             parts.append(String(format: "%02d:%02d:%02d", hour, minute, second))
-        }
-
-        if settingsStore.showWeekday {
-            let weekday = CalendarGridBuilder.calendar.component(.weekday, from: date) - 1
-            let text = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday]
-            parts.append(text)
         }
 
         return parts.joined(separator: " ")

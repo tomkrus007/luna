@@ -4,6 +4,14 @@ import SwiftUI
 
 @MainActor
 final class StatusBarController: NSObject {
+    private struct StatusItemContent: Equatable {
+        let length: CGFloat
+        let title: String
+        let toolTip: String?
+        let imagePosition: NSControl.ImagePosition
+        let showsImage: Bool
+    }
+
     private let appModel: AppModel
     private let statusItem: NSStatusItem
     private let popover = NSPopover()
@@ -11,6 +19,9 @@ final class StatusBarController: NSObject {
     private var settingsWindowController: NSWindowController?
     private var cancellables = Set<AnyCancellable>()
     private var tickerTask: Task<Void, Never>?
+    private var pendingStatusItemContent: StatusItemContent?
+    private var appliedStatusItemContent: StatusItemContent?
+    private var isStatusItemUpdateScheduled = false
 
     init(appModel: AppModel) {
         self.appModel = appModel
@@ -78,21 +89,55 @@ final class StatusBarController: NSObject {
     }
 
     private func updateStatusItem() {
-        guard let button = statusItem.button else { return }
+        let content: StatusItemContent
 
         if appModel.settingsStore.showIcon {
-            statusItem.length = 12
-            button.title = ""
-            button.attributedTitle = NSAttributedString(string: "")
-            button.image = statusImage()
-            button.imagePosition = .imageOnly
-            button.toolTip = "LunaCalendar"
+            content = StatusItemContent(
+                length: 12,
+                title: "",
+                toolTip: "LunaCalendar",
+                imagePosition: .imageOnly,
+                showsImage: true
+            )
         } else {
-            statusItem.length = NSStatusItem.variableLength
-            button.image = nil
-            button.imagePosition = .noImage
-            button.title = statusText(for: Date())
-            button.toolTip = nil
+            content = StatusItemContent(
+                length: NSStatusItem.variableLength,
+                title: statusText(for: Date()),
+                toolTip: nil,
+                imagePosition: .noImage,
+                showsImage: false
+            )
+        }
+
+        guard content != appliedStatusItemContent, content != pendingStatusItemContent else { return }
+        pendingStatusItemContent = content
+
+        guard !isStatusItemUpdateScheduled else { return }
+        isStatusItemUpdateScheduled = true
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.applyPendingStatusItemUpdate()
+        }
+    }
+
+    private func applyPendingStatusItemUpdate() {
+        isStatusItemUpdateScheduled = false
+
+        guard let button = statusItem.button, let content = pendingStatusItemContent else { return }
+        pendingStatusItemContent = nil
+
+        statusItem.length = content.length
+        button.title = content.title
+        button.attributedTitle = NSAttributedString(string: "")
+        button.image = content.showsImage ? statusImage() : nil
+        button.imagePosition = content.imagePosition
+        button.toolTip = content.toolTip
+
+        appliedStatusItemContent = content
+
+        if let nextContent = pendingStatusItemContent, nextContent != appliedStatusItemContent {
+            updateStatusItem()
         }
     }
 
@@ -116,6 +161,12 @@ final class StatusBarController: NSObject {
             parts.append("\(month)月\(day)日")
         }
 
+        if appModel.settingsStore.showWeekday {
+            let weekday = CalendarGridBuilder.calendar.component(.weekday, from: date) - 1
+            let text = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday]
+            parts.append(text)
+        }
+
         if appModel.settingsStore.showTime {
             let calendar = CalendarGridBuilder.calendar
             let components = calendar.dateComponents([.hour, .minute, .second], from: date)
@@ -123,12 +174,6 @@ final class StatusBarController: NSObject {
             let minute = components.minute ?? 0
             let second = components.second ?? 0
             parts.append(String(format: "%02d:%02d:%02d", hour, minute, second))
-        }
-
-        if appModel.settingsStore.showWeekday {
-            let weekday = CalendarGridBuilder.calendar.component(.weekday, from: date) - 1
-            let text = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday]
-            parts.append(text)
         }
 
         return parts.joined(separator: " ")
