@@ -36,7 +36,7 @@ final class SettingsStore: ObservableObject {
         self.showLunar = defaults.object(forKey: Keys.showLunar) as? Bool ?? true
         self.showTime = defaults.object(forKey: Keys.showTime) as? Bool ?? true
         self.showWeekday = defaults.object(forKey: Keys.showWeekday) as? Bool ?? true
-        self.launchAtLogin = defaults.object(forKey: Keys.launchAtLogin) as? Bool ?? false
+        self.launchAtLogin = defaults.object(forKey: Keys.launchAtLogin) as? Bool ?? LaunchAtLoginService.shared.isEnabled
     }
 
     private enum Keys {
