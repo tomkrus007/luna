@@ -1,4 +1,0 @@
-Target dependency graph (2 targets)
-Target 'LunaCalendar' in project 'LunaCalendar'
-➜ Explicit dependency on target 'LunaCalendarWidgetExtension' in project 'LunaCalendar'
-Target 'LunaCalendarWidgetExtension' in project 'LunaCalendar' (no dependencies)
