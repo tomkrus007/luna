@@ -2,6 +2,9 @@ import SwiftUI
 import WidgetKit
 
 struct CalendarWidgetView: View {
+    private static let weekdayTitles = CalendarGridBuilder.weekdayTitles()
+    private static let mediumColumns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
+
     @Environment(\.widgetFamily) private var family
     let entry: CalendarWidgetEntry
 
@@ -31,7 +34,7 @@ struct CalendarWidgetView: View {
                 .font(.subheadline)
                 .lineLimit(1)
 
-            Text(CalendarGridBuilder.weekdayTitles()[CalendarGridBuilder.calendar.component(.weekday, from: entry.summaryDay.date) - 1])
+            Text(Self.weekdayTitles[CalendarGridBuilder.calendar.component(.weekday, from: entry.summaryDay.date) - 1])
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -53,10 +56,9 @@ struct CalendarWidgetView: View {
                 badge(for: entry.summaryDay.holidayType)
             }
 
-            let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
-            LazyVGrid(columns: columns, spacing: 4) {
-                ForEach(Array(CalendarGridBuilder.weekdayTitles().enumerated()), id: \.offset) { index, title in
-                    Text(title)
+            LazyVGrid(columns: Self.mediumColumns, spacing: 4) {
+                ForEach(Self.weekdayTitles.indices, id: \.self) { index in
+                    Text(Self.weekdayTitles[index])
                         .font(.system(size: 10, weight: .semibold))
                         .foregroundStyle(index == 0 || index == 6 ? Color.red : Color.secondary)
                 }

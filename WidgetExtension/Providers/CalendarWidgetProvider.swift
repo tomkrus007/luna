@@ -28,13 +28,17 @@ struct CalendarWidgetProvider: TimelineProvider {
         let year = CalendarGridBuilder.calendar.component(.year, from: date)
         let holidays = HolidayCacheStore.load(year: year)
         let grid = CalendarGridBuilder.makeMonthGrid(displayDate: date, selectedDate: date, holidays: holidays)
-        let formatter = DateFormatter()
-        formatter.calendar = CalendarGridBuilder.calendar
-        formatter.locale = Locale(identifier: "zh_CN")
-        formatter.dateFormat = "yyyy-MM"
+        let components = CalendarGridBuilder.calendar.dateComponents([.year, .month], from: date)
+        let displayYear = components.year ?? 0
+        let displayMonth = components.month ?? 0
 
         let todayItem = grid.first(where: { CalendarGridBuilder.calendar.isDate($0.date, inSameDayAs: date) }) ?? grid[0]
 
-        return CalendarWidgetEntry(date: date, monthTitle: formatter.string(from: date), summaryDay: todayItem, monthGrid: grid)
+        return CalendarWidgetEntry(
+            date: date,
+            monthTitle: String(format: "%04d-%02d", displayYear, displayMonth),
+            summaryDay: todayItem,
+            monthGrid: grid
+        )
     }
 }
