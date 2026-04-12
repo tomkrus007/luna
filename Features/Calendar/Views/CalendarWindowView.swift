@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct CalendarWindowView: View {
@@ -5,9 +6,21 @@ struct CalendarWindowView: View {
     private static let headerColumns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     private static let dayColumns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
 
+    @Environment(\.openSettings) private var openSettings
     @ObservedObject var viewModel: CalendarViewModel
     @ObservedObject var settingsStore: SettingsStore
+    let openSettingsAction: (() -> Void)?
     @State private var didPreloadHolidayData = false
+
+    init(
+        viewModel: CalendarViewModel,
+        settingsStore: SettingsStore,
+        openSettingsAction: (() -> Void)? = nil
+    ) {
+        self.viewModel = viewModel
+        self.settingsStore = settingsStore
+        self.openSettingsAction = openSettingsAction
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -59,7 +72,7 @@ struct CalendarWindowView: View {
             .buttonStyle(.plain)
             .foregroundStyle(.white.opacity(0.9))
 
-            SettingsLink {
+            Button(action: openSettingsWindow) {
                 Image(systemName: "gearshape.fill")
                     .font(.system(size: 15))
             }
@@ -112,6 +125,15 @@ struct CalendarWindowView: View {
             }
         }
         .padding(10)
+    }
+
+    private func openSettingsWindow() {
+        NSApp.activate(ignoringOtherApps: true)
+        if let openSettingsAction {
+            openSettingsAction()
+        } else {
+            openSettings()
+        }
     }
 }
 

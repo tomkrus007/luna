@@ -28,8 +28,6 @@ func withBitmapContext(size: Int, draw: (CGContext, CGRect) -> Void) -> CGImage?
 
     let rect = CGRect(x: 0, y: 0, width: CGFloat(size), height: CGFloat(size))
     context.setAllowsAntialiasing(true)
-    context.translateBy(x: 0, y: rect.height)
-    context.scaleBy(x: 1, y: -1)
     draw(context, rect)
     return context.makeImage()
 }
@@ -38,17 +36,17 @@ func drawMenuBarSymbol(in context: CGContext, rect: CGRect, color: CGColor) {
     context.setStrokeColor(color)
     context.setFillColor(color)
 
-    let lineWidth = max(1.8, rect.width * 0.14)
-    let calendarRect = rect.insetBy(dx: rect.width * 0.02, dy: rect.height * 0.06)
+    let lineWidth = max(1.2, rect.width * 0.06)
+    let calendarRect = rect.insetBy(dx: rect.width * 0.14, dy: rect.height * 0.16)
     context.setLineWidth(lineWidth)
     context.setLineJoin(.round)
     context.setLineCap(.round)
-    context.addPath(roundedPath(in: calendarRect, radius: rect.width * 0.12))
+    context.addPath(roundedPath(in: calendarRect, radius: rect.width * 0.06))
     context.strokePath()
 
-    let binderWidth = max(1.4, rect.width * 0.12)
-    let binderHeight = rect.height * 0.18
-    let binderY = calendarRect.maxY - rect.height * 0.04
+    let binderWidth = max(1.2, rect.width * 0.06)
+    let binderHeight = rect.height * 0.10
+    let binderY = calendarRect.maxY - rect.height * 0.02
     let leftBinder = CGRect(x: calendarRect.minX + calendarRect.width * 0.2, y: binderY, width: binderWidth, height: binderHeight)
     let rightBinder = CGRect(x: calendarRect.maxX - calendarRect.width * 0.2 - binderWidth, y: binderY, width: binderWidth, height: binderHeight)
     context.addPath(roundedPath(in: leftBinder, radius: binderWidth / 2))
@@ -57,8 +55,8 @@ func drawMenuBarSymbol(in context: CGContext, rect: CGRect, color: CGColor) {
     context.fillPath()
 
     let separatorY = calendarRect.maxY - calendarRect.height * 0.26
-    context.move(to: CGPoint(x: calendarRect.minX + rect.width * 0.03, y: separatorY))
-    context.addLine(to: CGPoint(x: calendarRect.maxX - rect.width * 0.03, y: separatorY))
+    context.move(to: CGPoint(x: calendarRect.minX + rect.width * 0.01, y: separatorY))
+    context.addLine(to: CGPoint(x: calendarRect.maxX - rect.width * 0.01, y: separatorY))
     context.strokePath()
 }
 

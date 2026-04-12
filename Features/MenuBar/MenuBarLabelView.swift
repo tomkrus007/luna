@@ -30,16 +30,20 @@ struct MenuBarLabelView: View {
 
     @ViewBuilder
     private var menuBarIcon: some View {
-        if NSImage(named: "MenuBarSymbol") != nil {
-            Image("MenuBarSymbol")
-                .renderingMode(.template)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 15, height: 15)
-        } else {
-            Image(systemName: "calendar")
-                .font(.system(size: 14, weight: .semibold))
-        }
+        Color.clear
+            .frame(width: 1.5, height: 10)
+            .overlay {
+                if NSImage(named: "MenuBarSymbol") != nil {
+                    Image("MenuBarSymbol")
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 4, height: 10)
+                } else {
+                    Image(systemName: "calendar")
+                        .font(.system(size: 9, weight: .semibold))
+                }
+            }
     }
 
     private func labelText(for date: Date) -> String {
