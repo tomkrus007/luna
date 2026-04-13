@@ -11,6 +11,8 @@ struct CalendarSettingsView: View {
                     .disabled(settingsStore.showIcon)
                 Toggle("显示时间", isOn: $settingsStore.showTime)
                     .disabled(settingsStore.showIcon)
+                Toggle("显示秒", isOn: $settingsStore.showSeconds)
+                    .disabled(settingsStore.showIcon || !settingsStore.showTime)
                 Toggle("显示星期", isOn: $settingsStore.showWeekday)
                     .disabled(settingsStore.showIcon)
             }
