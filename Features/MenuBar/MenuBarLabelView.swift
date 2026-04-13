@@ -27,13 +27,24 @@ struct MenuBarLabelView: View {
         .onAppear {
             currentDate = Date()
         }
-        .task(id: settingsStore.showTime) {
+        .task(id: tickerConfigurationKey) {
             while !Task.isCancelled {
                 currentDate = Date()
-                let interval = settingsStore.showTime ? 1.0 : 60.0
-                try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
+                try? await Task.sleep(for: .seconds(tickerInterval))
             }
         }
+    }
+
+    private var tickerConfigurationKey: String {
+        "\(settingsStore.showIcon)-\(settingsStore.showTime)-\(settingsStore.showSeconds)"
+    }
+
+    private var tickerInterval: TimeInterval {
+        if settingsStore.showIcon || !settingsStore.showTime {
+            return 60.0
+        }
+
+        return settingsStore.showSeconds ? 1.0 : 60.0
     }
 
     @ViewBuilder
@@ -59,11 +70,18 @@ struct MenuBarLabelView: View {
 
         if settingsStore.showTime {
             let calendar = CalendarGridBuilder.calendar
-            let components = calendar.dateComponents([.hour, .minute, .second], from: date)
+            let units: Set<Calendar.Component> = settingsStore.showSeconds
+                ? [.hour, .minute, .second]
+                : [.hour, .minute]
+            let components = calendar.dateComponents(units, from: date)
             let hour = components.hour ?? 0
             let minute = components.minute ?? 0
-            let second = components.second ?? 0
-            parts.append(String(format: "%02d:%02d:%02d", hour, minute, second))
+            if settingsStore.showSeconds {
+                let second = components.second ?? 0
+                parts.append(String(format: "%02d:%02d:%02d", hour, minute, second))
+            } else {
+                parts.append(String(format: "%02d:%02d", hour, minute))
+            }
         }
 
         return parts.filter { !$0.isEmpty }.joined(separator: " ")

@@ -91,10 +91,18 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
             guard let self else { return }
             while !Task.isCancelled {
                 self.updateStatusItem()
-                let interval = self.appModel.settingsStore.showIcon ? 60.0 : (self.appModel.settingsStore.showTime ? 1.0 : 60.0)
-                try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
+                let interval = self.tickerInterval()
+                try? await Task.sleep(for: .seconds(interval))
             }
         }
+    }
+
+    private func tickerInterval() -> TimeInterval {
+        if appModel.settingsStore.showIcon || !appModel.settingsStore.showTime {
+            return 60.0
+        }
+
+        return appModel.settingsStore.showSeconds ? 1.0 : 60.0
     }
 
     private func updateStatusItem() {
@@ -138,7 +146,7 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
 
         statusItem.length = content.length
         button.title = content.title
-        button.attributedTitle = NSAttributedString(string: "")
+        button.attributedTitle = attributedStatusTitle(for: content.title)
         button.image = content.showsImage ? statusImage() : nil
         button.imagePosition = content.imagePosition
         button.toolTip = content.toolTip
@@ -157,16 +165,32 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         return image
     }
 
+    private func attributedStatusTitle(for title: String) -> NSAttributedString {
+        NSAttributedString(
+            string: title,
+            attributes: [
+                .font: NSFont.monospacedDigitSystemFont(ofSize: NSFont.systemFontSize, weight: .medium)
+            ]
+        )
+    }
+
     private func statusText(for date: Date) -> String {
         var parts: [String] = [cachedStatusTextPrefix(for: date)]
 
         if appModel.settingsStore.showTime {
             let calendar = CalendarGridBuilder.calendar
-            let components = calendar.dateComponents([.hour, .minute, .second], from: date)
+            let units: Set<Calendar.Component> = appModel.settingsStore.showSeconds
+                ? [.hour, .minute, .second]
+                : [.hour, .minute]
+            let components = calendar.dateComponents(units, from: date)
             let hour = components.hour ?? 0
             let minute = components.minute ?? 0
-            let second = components.second ?? 0
-            parts.append(String(format: "%02d:%02d:%02d", hour, minute, second))
+            if appModel.settingsStore.showSeconds {
+                let second = components.second ?? 0
+                parts.append(String(format: "%02d:%02d:%02d", hour, minute, second))
+            } else {
+                parts.append(String(format: "%02d:%02d", hour, minute))
+            }
         }
 
         return parts.filter { !$0.isEmpty }.joined(separator: " ")
