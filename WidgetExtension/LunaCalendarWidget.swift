@@ -1,6 +1,7 @@
 import WidgetKit
 import SwiftUI
 
+@main
 struct LunaCalendarWidget: Widget {
     let kind = "LunaCalendarWidget"
 
