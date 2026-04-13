@@ -3,13 +3,19 @@ import Combine
 import SwiftUI
 
 @MainActor
-final class StatusBarController: NSObject {
+final class StatusBarController: NSObject, NSPopoverDelegate {
     private struct StatusItemContent: Equatable {
         let length: CGFloat
         let title: String
         let toolTip: String?
         let imagePosition: NSControl.ImagePosition
         let showsImage: Bool
+    }
+
+    private struct StatusTextCacheKey: Equatable {
+        let dayStart: Date
+        let showLunar: Bool
+        let showWeekday: Bool
     }
 
     private let appModel: AppModel
@@ -22,6 +28,8 @@ final class StatusBarController: NSObject {
     private var pendingStatusItemContent: StatusItemContent?
     private var appliedStatusItemContent: StatusItemContent?
     private var isStatusItemUpdateScheduled = false
+    private var cachedStatusTextKey: StatusTextCacheKey?
+    private var cachedStatusTextPrefix = ""
 
     init(appModel: AppModel) {
         self.appModel = appModel
@@ -41,6 +49,7 @@ final class StatusBarController: NSObject {
     private func configurePopover() {
         popover.behavior = .transient
         popover.animates = true
+        popover.delegate = self
         popover.contentSize = NSSize(width: 360, height: 420)
         hostingController = NSHostingController(
             rootView: CalendarWindowView(
@@ -149,12 +158,38 @@ final class StatusBarController: NSObject {
     }
 
     private func statusText(for date: Date) -> String {
+        var parts: [String] = [cachedStatusTextPrefix(for: date)]
+
+        if appModel.settingsStore.showTime {
+            let calendar = CalendarGridBuilder.calendar
+            let components = calendar.dateComponents([.hour, .minute, .second], from: date)
+            let hour = components.hour ?? 0
+            let minute = components.minute ?? 0
+            let second = components.second ?? 0
+            parts.append(String(format: "%02d:%02d:%02d", hour, minute, second))
+        }
+
+        return parts.filter { !$0.isEmpty }.joined(separator: " ")
+    }
+
+    private func cachedStatusTextPrefix(for date: Date) -> String {
+        let calendar = CalendarGridBuilder.calendar
+        let dayStart = calendar.startOfDay(for: date)
+        let key = StatusTextCacheKey(
+            dayStart: dayStart,
+            showLunar: appModel.settingsStore.showLunar,
+            showWeekday: appModel.settingsStore.showWeekday
+        )
+
+        if cachedStatusTextKey == key {
+            return cachedStatusTextPrefix
+        }
+
         var parts: [String] = []
 
         if appModel.settingsStore.showLunar {
             parts.append(CalendarConverter.getStatusBarLunarText(for: date))
         } else {
-            let calendar = CalendarGridBuilder.calendar
             let components = calendar.dateComponents([.month, .day], from: date)
             let month = components.month ?? 0
             let day = components.day ?? 0
@@ -167,16 +202,10 @@ final class StatusBarController: NSObject {
             parts.append(text)
         }
 
-        if appModel.settingsStore.showTime {
-            let calendar = CalendarGridBuilder.calendar
-            let components = calendar.dateComponents([.hour, .minute, .second], from: date)
-            let hour = components.hour ?? 0
-            let minute = components.minute ?? 0
-            let second = components.second ?? 0
-            parts.append(String(format: "%02d:%02d:%02d", hour, minute, second))
-        }
-
-        return parts.joined(separator: " ")
+        let prefix = parts.joined(separator: " ")
+        cachedStatusTextKey = key
+        cachedStatusTextPrefix = prefix
+        return prefix
     }
 
     private func openSettingsWindow() {
@@ -205,8 +234,13 @@ final class StatusBarController: NSObject {
         if popover.isShown {
             popover.performClose(sender)
         } else {
+            appModel.calendarViewModel.activate()
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             NSApp.activate(ignoringOtherApps: true)
         }
+    }
+
+    func popoverDidClose(_ notification: Notification) {
+        appModel.calendarViewModel.deactivate()
     }
 }
