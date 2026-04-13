@@ -1,6 +1,10 @@
 import AppKit
 import SwiftUI
 
+private let calendarWeekdayHeaderBackground = Color(nsColor: .controlBackgroundColor)
+private let calendarWeekendForeground = Color(nsColor: .systemRed)
+private let calendarAdjacentMonthForeground = Color.secondary.opacity(0.6)
+
 struct CalendarWindowView: View {
     private static let weekdayTitles = CalendarGridBuilder.weekdayTitles()
     private static let headerColumns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
@@ -105,13 +109,13 @@ struct CalendarWindowView: View {
             ForEach(Self.weekdayTitles.indices, id: \.self) { index in
                 Text(Self.weekdayTitles[index])
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(index == 0 || index == 6 ? Color.red : Color.secondary)
+                    .foregroundStyle(index == 0 || index == 6 ? calendarWeekendForeground : Color.secondary)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
             }
         }
         .padding(.horizontal, 10)
-        .background(Color(white: 0.96))
+        .background(calendarWeekdayHeaderBackground)
         .overlay(alignment: .bottom) {
             Divider().opacity(0.5)
         }
@@ -201,15 +205,15 @@ private struct CalendarDayCellView: View {
 
     private var primaryTextColor: Color {
         if day.isSelected { return .white }
-        if !day.isCurrentMonth { return Color(white: 0.75) }
-        if day.isWeekend { return .red }
+        if !day.isCurrentMonth { return calendarAdjacentMonthForeground }
+        if day.isWeekend { return calendarWeekendForeground }
         return .primary
     }
 
     private var secondaryTextColor: Color {
         if day.isSelected { return .white.opacity(0.9) }
-        if !day.isCurrentMonth { return Color(white: 0.75) }
-        if day.festivalText != nil { return .red }
+        if !day.isCurrentMonth { return calendarAdjacentMonthForeground }
+        if day.festivalText != nil { return calendarWeekendForeground }
         return .secondary
     }
 }

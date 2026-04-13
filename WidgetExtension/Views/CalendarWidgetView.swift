@@ -4,6 +4,8 @@ import WidgetKit
 struct CalendarWidgetView: View {
     private static let weekdayTitles = CalendarGridBuilder.weekdayTitles()
     private static let mediumColumns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
+    private static let weekendForeground = Color(nsColor: .systemRed)
+    private static let adjacentMonthForeground = Color.secondary.opacity(0.6)
 
     @Environment(\.widgetFamily) private var family
     let entry: CalendarWidgetEntry
@@ -60,7 +62,7 @@ struct CalendarWidgetView: View {
                 ForEach(Self.weekdayTitles.indices, id: \.self) { index in
                     Text(Self.weekdayTitles[index])
                         .font(.system(size: 10, weight: .semibold))
-                        .foregroundStyle(index == 0 || index == 6 ? Color.red : Color.secondary)
+                        .foregroundStyle(index == 0 || index == 6 ? Self.weekendForeground : Color.secondary)
                 }
 
                 ForEach(entry.monthGrid) { day in
@@ -70,7 +72,7 @@ struct CalendarWidgetView: View {
 
                         Text(day.solarText)
                             .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(day.isSelected ? Color.white : (!day.isCurrentMonth ? Color(white: 0.75) : (day.isWeekend ? Color.red : Color.primary)))
+                            .foregroundStyle(day.isSelected ? Color.white : (!day.isCurrentMonth ? Self.adjacentMonthForeground : (day.isWeekend ? Self.weekendForeground : Color.primary)))
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     }
                     .frame(height: 18)
