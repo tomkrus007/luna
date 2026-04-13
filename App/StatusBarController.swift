@@ -28,6 +28,7 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
     private var pendingStatusItemContent: StatusItemContent?
     private var appliedStatusItemContent: StatusItemContent?
     private var isStatusItemUpdateScheduled = false
+    private var isPopoverTransitioning = false
     private var cachedStatusTextKey: StatusTextCacheKey?
     private var cachedStatusTextPrefix = ""
 
@@ -129,6 +130,10 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         guard content != appliedStatusItemContent, content != pendingStatusItemContent else { return }
         pendingStatusItemContent = content
 
+        scheduleStatusItemUpdateIfNeeded()
+    }
+
+    private func scheduleStatusItemUpdateIfNeeded() {
         guard !isStatusItemUpdateScheduled else { return }
         isStatusItemUpdateScheduled = true
 
@@ -141,12 +146,18 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
     private func applyPendingStatusItemUpdate() {
         isStatusItemUpdateScheduled = false
 
+        guard !isPopoverTransitioning, !popover.isShown else {
+            if pendingStatusItemContent != nil {
+                scheduleStatusItemUpdateIfNeeded()
+            }
+            return
+        }
+
         guard let button = statusItem.button, let content = pendingStatusItemContent else { return }
         pendingStatusItemContent = nil
 
         statusItem.length = content.length
-        button.title = content.title
-        button.attributedTitle = attributedStatusTitle(for: content.title)
+        button.attributedTitle = content.showsImage ? NSAttributedString(string: "") : attributedStatusTitle(for: content.title)
         button.image = content.showsImage ? statusImage() : nil
         button.imagePosition = content.imagePosition
         button.toolTip = content.toolTip
@@ -256,15 +267,23 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         guard let button = statusItem.button else { return }
 
         if popover.isShown {
+            isPopoverTransitioning = true
             popover.performClose(sender)
         } else {
+            isPopoverTransitioning = true
             appModel.calendarViewModel.activate()
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             NSApp.activate(ignoringOtherApps: true)
         }
     }
 
+    func popoverDidShow(_ notification: Notification) {
+        isPopoverTransitioning = false
+    }
+
     func popoverDidClose(_ notification: Notification) {
+        isPopoverTransitioning = false
         appModel.calendarViewModel.deactivate()
+        applyPendingStatusItemUpdate()
     }
 }
