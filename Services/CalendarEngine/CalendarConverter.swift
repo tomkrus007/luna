@@ -3,6 +3,15 @@ import Foundation
 enum CalendarConverter {
     private static let chineseCalendar = Calendar(identifier: .chinese)
     private static let gregorianCalendar = Calendar(identifier: .gregorian)
+    private static let solarTermBaseUTC = DateComponents(
+        calendar: gregorianCalendar,
+        timeZone: TimeZone(secondsFromGMT: 0),
+        year: 1900,
+        month: 1,
+        day: 6,
+        hour: 2,
+        minute: 5
+    ).date ?? .now
 
     static let solarTerm = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋", "处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"]
 
@@ -85,6 +94,10 @@ enum CalendarConverter {
             return solarTerm
         }
 
+        return getLunarDayText(for: date)
+    }
+
+    static func getLunarDayText(for date: Date) -> String {
         let lunar = chineseCalendar.dateComponents([.day], from: date)
         guard let lunarDay = lunar.day else {
             return ""
@@ -137,18 +150,8 @@ enum CalendarConverter {
             return -1
         }
 
-        let baseUTC = DateComponents(
-            calendar: gregorianCalendar,
-            timeZone: TimeZone(secondsFromGMT: 0),
-            year: 1900,
-            month: 1,
-            day: 6,
-            hour: 2,
-            minute: 5
-        ).date ?? .now
-
         let seconds = Double(year - 1900) * 31_556_925.9747 + Double(solarTermMinutes[index] * 60)
-        let termDate = baseUTC.addingTimeInterval(seconds)
+        let termDate = solarTermBaseUTC.addingTimeInterval(seconds)
         return gregorianCalendar.component(.day, from: termDate)
     }
 }
