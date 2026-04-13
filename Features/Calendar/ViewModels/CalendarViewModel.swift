@@ -74,7 +74,11 @@ final class CalendarViewModel: ObservableObject {
         let components = CalendarGridBuilder.calendar.dateComponents([.month, .day], from: selectedDate)
         let month = components.month ?? 0
         let day = components.day ?? 0
-        return String(format: "%02d-%02d", month, day)
+        let solarText = String(format: "%02d-%02d", month, day)
+        let lunarText = CalendarConverter.getStatusBarLunarText(for: selectedDate)
+        return [solarText, lunarText]
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
     }
 
     var isDisplayingToday: Bool {

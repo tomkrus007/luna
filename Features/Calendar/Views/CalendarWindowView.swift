@@ -58,17 +58,19 @@ struct CalendarWindowView: View {
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
 
+            Text(viewModel.displayMonthText)
+                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .foregroundStyle(.white)
+                .lineLimit(1)
+                .minimumScaleFactor(0.9)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
             Button(action: viewModel.goToPreviousMonth) {
                 Image(systemName: "chevron.left")
                     .font(.system(size: 15, weight: .bold))
             }
             .buttonStyle(.plain)
             .foregroundStyle(.white.opacity(0.9))
-
-            Text(viewModel.displayMonthText)
-                .font(.system(size: 18, weight: .bold, design: .rounded))
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
 
             Button(action: viewModel.goToNextMonth) {
                 Image(systemName: "chevron.right")
@@ -77,14 +79,7 @@ struct CalendarWindowView: View {
             .buttonStyle(.plain)
             .foregroundStyle(.white.opacity(0.9))
 
-            Button(action: openSettingsWindow) {
-                Image(systemName: "gearshape.fill")
-                    .font(.system(size: 15))
-            }
-            .buttonStyle(.plain)
-            .foregroundStyle(.white.opacity(0.8))
-
-            Button("返回今天", action: viewModel.goToToday)
+            Button("今天", action: viewModel.goToToday)
                 .buttonStyle(.plain)
                 .font(.system(size: 12, weight: .medium))
                 .padding(.horizontal, 10)
@@ -97,6 +92,13 @@ struct CalendarWindowView: View {
                         .stroke(Color.white.opacity(viewModel.isDisplayingToday ? 0.15 : 0), lineWidth: 1)
                 }
                 .disabled(viewModel.isDisplayingToday)
+
+            Button(action: openSettingsWindow) {
+                Image(systemName: "gearshape.fill")
+                    .font(.system(size: 15))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(.white.opacity(0.8))
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 8)
