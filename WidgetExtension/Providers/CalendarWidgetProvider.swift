@@ -27,6 +27,10 @@ struct CalendarWidgetProvider: TimelineProvider {
     private func makeEntry(for date: Date) -> CalendarWidgetEntry {
         let year = CalendarGridBuilder.calendar.component(.year, from: date)
         let holidays = HolidayCacheStore.load(year: year)
+        return buildEntry(for: date, holidays: holidays)
+    }
+
+    private func buildEntry(for date: Date, holidays: [String: HolidayItem]) -> CalendarWidgetEntry {
         let grid = CalendarGridBuilder.makeMonthGrid(displayDate: date, selectedDate: date, holidays: holidays)
         let components = CalendarGridBuilder.calendar.dateComponents([.year, .month], from: date)
         let displayYear = components.year ?? 0
