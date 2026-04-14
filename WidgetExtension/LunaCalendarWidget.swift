@@ -11,6 +11,6 @@ struct LunaCalendarWidget: Widget {
         }
         .configurationDisplayName("万年历")
         .description("展示当天日期、农历和简化月历。")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
