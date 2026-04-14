@@ -18,7 +18,15 @@ enum HolidayCacheStore {
 
     static func save(year: Int, items: [HolidayItem]) {
         let url = fileURL(for: year)
-        let envelope = HolidayCacheEnvelope(year: year, updatedAt: .now, items: items.sorted { $0.dateString < $1.dateString })
+        let sortedItems = items.sorted { $0.dateString < $1.dateString }
+        let existingItems = loadItems(year: year)
+
+        guard existingItems != sortedItems else {
+            AppGroupSupport.setLastHolidayRefresh(Date().timeIntervalSince1970, for: year)
+            return
+        }
+
+        let envelope = HolidayCacheEnvelope(year: year, updatedAt: .now, items: sortedItems)
         guard let data = try? makeEncoder().encode(envelope) else { return }
         try? data.write(to: url, options: .atomic)
         AppGroupSupport.setHolidayUpdatedYear(year)
@@ -27,6 +35,18 @@ enum HolidayCacheStore {
 #if canImport(WidgetKit)
         WidgetCenter.shared.reloadTimelines(ofKind: "LunaCalendarWidget")
 #endif
+    }
+
+    private static func loadItems(year: Int) -> [HolidayItem] {
+        let url = fileURL(for: year)
+        guard
+            let data = try? Data(contentsOf: url),
+            let envelope = try? makeDecoder().decode(HolidayCacheEnvelope.self, from: data)
+        else {
+            return []
+        }
+
+        return envelope.items
     }
 
     private static func fileURL(for year: Int) -> URL {
