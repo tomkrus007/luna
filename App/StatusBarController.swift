@@ -25,6 +25,7 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
     private var settingsWindowController: NSWindowController?
     private var cancellables = Set<AnyCancellable>()
     private var tickerTask: Task<Void, Never>?
+    private var holidayWarmupTask: Task<Void, Never>?
     private var pendingStatusItemContent: StatusItemContent?
     private var appliedStatusItemContent: StatusItemContent?
     private var isStatusItemUpdateScheduled = false
@@ -41,10 +42,12 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         bindSettings()
         updateStatusItem()
         startTicker()
+        startHolidayWarmup()
     }
 
     deinit {
         tickerTask?.cancel()
+        holidayWarmupTask?.cancel()
     }
 
     private func configurePopover() {
@@ -95,6 +98,13 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
                 let interval = self.tickerInterval()
                 try? await Task.sleep(for: .seconds(interval))
             }
+        }
+    }
+
+    private func startHolidayWarmup() {
+        holidayWarmupTask?.cancel()
+        holidayWarmupTask = Task {
+            await HolidayService.shared.preloadAround(date: .now)
         }
     }
 
