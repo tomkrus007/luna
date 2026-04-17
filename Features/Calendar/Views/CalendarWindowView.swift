@@ -158,11 +158,11 @@ private struct CalendarDayCellView: View {
                     Text(holidayType.badgeText)
                         .font(.system(size: 9, weight: .bold))
                         .foregroundStyle(.white)
-                        .padding(.horizontal, 4)
-                        .padding(.vertical, 2)
+                        .padding(.horizontal, 2.5)
+                        .padding(.vertical, 1)
                         .background(holidayType == .holiday ? Color.red : Color(white: 0.6))
-                        .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
-                        .padding(3)
+                        .clipShape(RoundedRectangle(cornerRadius: 1.5, style: .continuous))
+                        .padding(2)
                 }
 
                 VStack(spacing: 0) {

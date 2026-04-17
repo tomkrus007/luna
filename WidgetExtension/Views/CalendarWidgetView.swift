@@ -9,6 +9,7 @@ struct CalendarWidgetView: View {
     private static let adjacentMonthForeground = Color.secondary.opacity(0.6)
 
     @Environment(\.widgetFamily) private var family
+    @Environment(\.widgetRenderingMode) private var renderingMode
     let entry: CalendarWidgetEntry
 
     var body: some View {
@@ -77,11 +78,11 @@ struct CalendarWidgetView: View {
                             Text(holidayType.badgeText)
                                 .font(.system(size: 7, weight: .bold))
                                 .foregroundStyle(.white)
-                                .padding(.horizontal, 2)
-                                .padding(.vertical, 1)
+                                .padding(.horizontal, 1.5)
+                                .padding(.vertical, 0.5)
                                 .background(holidayType == .holiday ? Color.red : Color(white: 0.6))
-                                .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
-                                .padding(2)
+                                .clipShape(RoundedRectangle(cornerRadius: 1.5, style: .continuous))
+                                .padding(1.5)
                         }
 
                         VStack(spacing: 0) {
@@ -102,6 +103,10 @@ struct CalendarWidgetView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                     .frame(height: 24)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 4, style: .continuous)
+                            .stroke(selectionStrokeColor(for: day), lineWidth: selectionStrokeWidth(for: day))
+                    }
                 }
             }
         }
@@ -156,11 +161,11 @@ struct CalendarWidgetView: View {
                             Text(holidayType.badgeText)
                                 .font(.system(size: 8, weight: .bold))
                                 .foregroundStyle(.white)
-                                .padding(.horizontal, 3)
-                                .padding(.vertical, 2)
+                                .padding(.horizontal, 2)
+                                .padding(.vertical, 1)
                                 .background(holidayType == .holiday ? Color.red : Color(white: 0.6))
-                                .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
-                                .padding(4)
+                                .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
+                                .padding(3)
                         }
 
                         VStack(spacing: 0) {
@@ -181,6 +186,10 @@ struct CalendarWidgetView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                     .frame(height: 52)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .stroke(selectionStrokeColor(for: day), lineWidth: selectionStrokeWidth(for: day))
+                    }
                 }
             }
         }
@@ -204,7 +213,10 @@ struct CalendarWidgetView: View {
 
     private func backgroundColor(for day: CalendarDayItem) -> Color {
         if day.isSelected {
-            return Color(red: 247/255, green: 181/255, blue: 0/255)
+            if usesFilledSelectionStyle {
+                return Color(red: 247/255, green: 181/255, blue: 0/255)
+            }
+            return .clear
         }
         if day.holidayType == .holiday {
             return Color.red.opacity(0.04)
@@ -215,18 +227,35 @@ struct CalendarWidgetView: View {
         return .clear
     }
 
+    private func selectionStrokeColor(for day: CalendarDayItem) -> Color {
+        guard day.isSelected, !usesFilledSelectionStyle else { return .clear }
+        return .primary.opacity(0.45)
+    }
+
+    private func selectionStrokeWidth(for day: CalendarDayItem) -> CGFloat {
+        day.isSelected && !usesFilledSelectionStyle ? 1.25 : 0
+    }
+
     private func primaryTextColor(for day: CalendarDayItem) -> Color {
-        if day.isSelected { return .white }
+        if day.isSelected {
+            return usesFilledSelectionStyle ? .white : .primary
+        }
         if !day.isCurrentMonth { return Self.adjacentMonthForeground }
         if day.isWeekend { return Self.weekendForeground }
         return .primary
     }
 
     private func secondaryTextColor(for day: CalendarDayItem) -> Color {
-        if day.isSelected { return .white.opacity(0.9) }
+        if day.isSelected {
+            return usesFilledSelectionStyle ? .white.opacity(0.9) : .secondary
+        }
         if !day.isCurrentMonth { return Self.adjacentMonthForeground }
         if day.festivalText != nil { return Self.weekendForeground }
         return .secondary
+    }
+
+    private var usesFilledSelectionStyle: Bool {
+        renderingMode == .fullColor
     }
 
     private var largeWeekdayText: String {
