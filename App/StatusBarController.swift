@@ -4,6 +4,13 @@ import SwiftUI
 
 @MainActor
 final class StatusBarController: NSObject, NSPopoverDelegate {
+    private enum TickerSchedule {
+        case none
+        case second
+        case minute
+        case day
+    }
+
     private struct StatusItemContent: Equatable {
         let length: CGFloat
         let title: String
@@ -24,7 +31,7 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
     private var hostingController: NSHostingController<CalendarWindowView>?
     private var settingsWindowController: NSWindowController?
     private var cancellables = Set<AnyCancellable>()
-    private var tickerTask: Task<Void, Never>?
+    private var tickerTimer: Timer?
     private var holidayWarmupTask: Task<Void, Never>?
     private var pendingStatusItemContent: StatusItemContent?
     private var appliedStatusItemContent: StatusItemContent?
@@ -43,11 +50,6 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         updateStatusItem()
         startTicker()
         startHolidayWarmup()
-    }
-
-    deinit {
-        tickerTask?.cancel()
-        holidayWarmupTask?.cancel()
     }
 
     private func configurePopover() {
@@ -72,6 +74,7 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         button.target = self
         button.action = #selector(togglePopover(_:))
         button.sendAction(on: [.leftMouseUp])
+        button.font = NSFont.monospacedDigitSystemFont(ofSize: NSFont.systemFontSize, weight: .medium)
         button.imagePosition = .imageOnly
         button.imageScaling = .scaleProportionallyDown
     }
@@ -90,15 +93,9 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
     }
 
     private func startTicker() {
-        tickerTask?.cancel()
-        tickerTask = Task { [weak self] in
-            guard let self else { return }
-            while !Task.isCancelled {
-                self.updateStatusItem()
-                let interval = self.tickerInterval()
-                try? await Task.sleep(for: .seconds(interval))
-            }
-        }
+        tickerTimer?.invalidate()
+        tickerTimer = nil
+        scheduleNextTickerUpdate(after: .now)
     }
 
     private func startHolidayWarmup() {
@@ -108,12 +105,71 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         }
     }
 
-    private func tickerInterval() -> TimeInterval {
-        if appModel.settingsStore.showIcon || !appModel.settingsStore.showTime {
-            return 60.0
+    private func tickerSchedule() -> TickerSchedule {
+        if appModel.settingsStore.showIcon {
+            return .none
         }
 
-        return appModel.settingsStore.showSeconds ? 1.0 : 60.0
+        if !appModel.settingsStore.showTime {
+            return .day
+        }
+
+        return appModel.settingsStore.showSeconds ? .second : .minute
+    }
+
+    private func scheduleNextTickerUpdate(after date: Date) {
+        let schedule = tickerSchedule()
+
+        guard let fireDate = nextTickerFireDate(after: date, schedule: schedule) else {
+            return
+        }
+
+        let timer = Timer(fire: fireDate, interval: 0, repeats: false) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.updateStatusItem()
+                self.scheduleNextTickerUpdate(after: Date())
+            }
+        }
+        timer.tolerance = tickerTolerance(for: schedule)
+        RunLoop.main.add(timer, forMode: .common)
+        tickerTimer = timer
+    }
+
+    private func nextTickerFireDate(after date: Date, schedule: TickerSchedule) -> Date? {
+        switch schedule {
+        case .none:
+            return nil
+        case .second:
+            return nextAlignedDate(after: date, interval: 1)
+        case .minute:
+            return nextAlignedDate(after: date, interval: 60)
+        case .day:
+            let calendar = CalendarGridBuilder.calendar
+            guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: date) else {
+                return nil
+            }
+            return calendar.startOfDay(for: tomorrow)
+        }
+    }
+
+    private func nextAlignedDate(after date: Date, interval: TimeInterval) -> Date {
+        let referenceTime = date.timeIntervalSinceReferenceDate
+        let nextTick = floor(referenceTime / interval) * interval + interval
+        return Date(timeIntervalSinceReferenceDate: nextTick)
+    }
+
+    private func tickerTolerance(for schedule: TickerSchedule) -> TimeInterval {
+        switch schedule {
+        case .none:
+            return 0
+        case .second:
+            return 0.1
+        case .minute:
+            return 1
+        case .day:
+            return 60
+        }
     }
 
     private func updateStatusItem() {
@@ -167,7 +223,7 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         pendingStatusItemContent = nil
 
         statusItem.length = content.length
-        button.attributedTitle = content.showsImage ? NSAttributedString(string: "") : attributedStatusTitle(for: content.title)
+        button.title = content.showsImage ? "" : content.title
         button.image = content.showsImage ? statusImage() : nil
         button.imagePosition = content.imagePosition
         button.toolTip = content.toolTip
@@ -184,15 +240,6 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         image?.isTemplate = true
         image?.size = NSSize(width: 18, height: 18)
         return image
-    }
-
-    private func attributedStatusTitle(for title: String) -> NSAttributedString {
-        NSAttributedString(
-            string: title,
-            attributes: [
-                .font: NSFont.monospacedDigitSystemFont(ofSize: NSFont.systemFontSize, weight: .medium)
-            ]
-        )
     }
 
     private func statusText(for date: Date) -> String {
