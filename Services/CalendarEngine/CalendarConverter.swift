@@ -105,6 +105,19 @@ enum CalendarConverter {
         return toChinaDay(lunarDay)
     }
 
+    static func getLunarCellText(for date: Date) -> String {
+        let lunar = chineseCalendar.dateComponents([.month, .day, .isLeapMonth], from: date)
+        guard let month = lunar.month, let day = lunar.day else {
+            return ""
+        }
+
+        if day == 1 {
+            return (lunar.isLeapMonth == true ? "闰" : "") + toChinaMonth(month)
+        }
+
+        return toChinaDay(day)
+    }
+
     static func getSolarTermName(for dateComponents: DateComponents) -> String? {
         guard let year = dateComponents.year, let month = dateComponents.month, let day = dateComponents.day else {
             return nil

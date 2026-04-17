@@ -66,7 +66,7 @@ enum CalendarGridBuilder {
                 isSelected: calendar.isDate(date, inSameDayAs: selectedDate),
                 isWeekend: weekday == 1 || weekday == 7,
                 solarText: String(day),
-                lunarText: festivalText ?? CalendarConverter.getLunarDayText(for: date),
+                lunarText: festivalText ?? CalendarConverter.getLunarCellText(for: date),
                 festivalText: festivalText,
                 holidayType: holiday?.type
             ))
