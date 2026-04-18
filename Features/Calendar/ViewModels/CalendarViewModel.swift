@@ -11,11 +11,13 @@ final class CalendarViewModel: ObservableObject {
 
     private var holidayMap: [String: HolidayItem] = [:]
     private var holidayRefreshTask: Task<Void, Never>?
+    private var dayChangeTask: Task<Void, Never>?
     private var rebuildTask: Task<Void, Never>?
     private var preloadTask: Task<Void, Never>?
     private var reloadTask: Task<Void, Never>?
     private var isHandlingHolidayRefresh = false
     private var isActive = false
+    private var followsSystemDate = true
 
     init(today: Date = .now) {
         self.displayDate = today.startOfMonth(using: CalendarGridBuilder.calendar)
@@ -24,6 +26,7 @@ final class CalendarViewModel: ObservableObject {
 
     deinit {
         holidayRefreshTask?.cancel()
+        dayChangeTask?.cancel()
         rebuildTask?.cancel()
         preloadTask?.cancel()
         reloadTask?.cancel()
@@ -33,6 +36,8 @@ final class CalendarViewModel: ObservableObject {
         guard !isActive else { return }
         isActive = true
         startHolidayRefreshObservation()
+        startDayChangeObservation()
+        refreshCurrentDateIfNeeded()
     }
 
     func deactivate() {
@@ -40,6 +45,8 @@ final class CalendarViewModel: ObservableObject {
         isActive = false
         holidayRefreshTask?.cancel()
         holidayRefreshTask = nil
+        dayChangeTask?.cancel()
+        dayChangeTask = nil
         rebuildTask?.cancel()
         preloadTask?.cancel()
         reloadTask?.cancel()
@@ -62,6 +69,20 @@ final class CalendarViewModel: ObservableObject {
             }
             await MainActor.run {
                 self?.holidayRefreshTask = nil
+            }
+        }
+    }
+
+    private func startDayChangeObservation() {
+        guard dayChangeTask == nil else { return }
+        dayChangeTask = Task { [weak self] in
+            for await _ in NotificationCenter.default.notifications(named: .NSCalendarDayChanged) {
+                guard let self else { return }
+                guard self.isActive else { continue }
+                await self.handleDayChange()
+            }
+            await MainActor.run {
+                self?.dayChangeTask = nil
             }
         }
     }
@@ -96,9 +117,9 @@ final class CalendarViewModel: ObservableObject {
             var selComponents = CalendarGridBuilder.calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: selectedDate)
             selComponents.year = year
             if let newSel = CalendarGridBuilder.calendar.date(from: selComponents) {
-                applyCalendarChange(displayDate: date, selectedDate: newSel, forceReload: true)
+                applyCalendarChange(displayDate: date, selectedDate: newSel, forceReload: true, followsSystemDate: false)
             } else {
-                applyCalendarChange(displayDate: date, selectedDate: selectedDate, forceReload: true)
+                applyCalendarChange(displayDate: date, selectedDate: selectedDate, forceReload: true, followsSystemDate: false)
             }
         }
     }
@@ -106,35 +127,36 @@ final class CalendarViewModel: ObservableObject {
     func goToPreviousMonth() {
         guard let date = CalendarGridBuilder.calendar.date(byAdding: .month, value: -1, to: displayDate) else { return }
         if let newSelected = CalendarGridBuilder.calendar.date(byAdding: .month, value: -1, to: selectedDate) {
-            applyCalendarChange(displayDate: date, selectedDate: newSelected)
+            applyCalendarChange(displayDate: date, selectedDate: newSelected, followsSystemDate: false)
         } else {
-            applyCalendarChange(displayDate: date, selectedDate: selectedDate)
+            applyCalendarChange(displayDate: date, selectedDate: selectedDate, followsSystemDate: false)
         }
     }
 
     func goToNextMonth() {
         guard let date = CalendarGridBuilder.calendar.date(byAdding: .month, value: 1, to: displayDate) else { return }
         if let newSelected = CalendarGridBuilder.calendar.date(byAdding: .month, value: 1, to: selectedDate) {
-            applyCalendarChange(displayDate: date, selectedDate: newSelected)
+            applyCalendarChange(displayDate: date, selectedDate: newSelected, followsSystemDate: false)
         } else {
-            applyCalendarChange(displayDate: date, selectedDate: selectedDate)
+            applyCalendarChange(displayDate: date, selectedDate: selectedDate, followsSystemDate: false)
         }
     }
 
     func goToToday() {
         guard !isDisplayingToday else { return }
         let today = Date()
-        applyCalendarChange(displayDate: today, selectedDate: today)
+        applyCalendarChange(displayDate: today, selectedDate: today, followsSystemDate: true)
     }
 
     func select(_ date: Date) {
+        followsSystemDate = CalendarGridBuilder.calendar.isDateInToday(date)
         selectedDate = date
         if let url = AppRoute.url(for: date) {
             AppGroupSupport.setSelectedDateURLString(url.absoluteString)
         }
         let selectedMonth = date.startOfMonth(using: CalendarGridBuilder.calendar)
         if selectedMonth != displayDate {
-            applyCalendarChange(displayDate: selectedMonth, selectedDate: date)
+            applyCalendarChange(displayDate: selectedMonth, selectedDate: date, followsSystemDate: followsSystemDate)
         } else {
             rebuildDays()
         }
@@ -142,7 +164,7 @@ final class CalendarViewModel: ObservableObject {
 
     func handleIncomingURL(_ url: URL) {
         guard let date = AppRoute.parseDate(from: url) else { return }
-        applyCalendarChange(displayDate: date, selectedDate: date)
+        applyCalendarChange(displayDate: date, selectedDate: date, followsSystemDate: CalendarGridBuilder.calendar.isDateInToday(date))
     }
 
     private func syncSelectedDateURL() {
@@ -215,7 +237,26 @@ final class CalendarViewModel: ObservableObject {
         rebuildDays()
     }
 
-    private func applyCalendarChange(displayDate newDisplayDate: Date, selectedDate newSelectedDate: Date, forceReload: Bool = false) {
+    private func handleDayChange() async {
+        refreshCurrentDateIfNeeded()
+    }
+
+    private func refreshCurrentDateIfNeeded() {
+        guard followsSystemDate else { return }
+
+        let calendar = CalendarGridBuilder.calendar
+        let today = Date()
+        let todayMonth = today.startOfMonth(using: calendar)
+        let currentDisplayMonth = displayDate.startOfMonth(using: calendar)
+
+        guard !calendar.isDate(selectedDate, inSameDayAs: today) || currentDisplayMonth != todayMonth else {
+            return
+        }
+
+        applyCalendarChange(displayDate: today, selectedDate: today, followsSystemDate: true)
+    }
+
+    private func applyCalendarChange(displayDate newDisplayDate: Date, selectedDate newSelectedDate: Date, forceReload: Bool = false, followsSystemDate newFollowsSystemDate: Bool? = nil) {
         let calendar = CalendarGridBuilder.calendar
         let previousYear = calendar.component(.year, from: displayDate)
         let normalizedDisplayDate = newDisplayDate.startOfMonth(using: calendar)
@@ -223,6 +264,9 @@ final class CalendarViewModel: ObservableObject {
 
         displayDate = normalizedDisplayDate
         selectedDate = newSelectedDate
+        if let newFollowsSystemDate {
+            followsSystemDate = newFollowsSystemDate
+        }
         syncSelectedDateURL()
 
         if forceReload || holidayMap.isEmpty || newYear != previousYear {
