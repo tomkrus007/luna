@@ -10,8 +10,8 @@ final class CalendarViewModel: ObservableObject {
     let years = Array(1900...2100)
 
     private var holidayMap: [String: HolidayItem] = [:]
-    private var holidayRefreshTask: Task<Void, Never>?
-    private var dayChangeTask: Task<Void, Never>?
+    private var holidayRefreshObserver: NSObjectProtocol?
+    private var dayChangeObserver: NSObjectProtocol?
     private var rebuildTask: Task<Void, Never>?
     private var preloadTask: Task<Void, Never>?
     private var reloadTask: Task<Void, Never>?
@@ -25,11 +25,17 @@ final class CalendarViewModel: ObservableObject {
     }
 
     deinit {
-        holidayRefreshTask?.cancel()
-        dayChangeTask?.cancel()
-        rebuildTask?.cancel()
-        preloadTask?.cancel()
-        reloadTask?.cancel()
+        MainActor.assumeIsolated {
+            if let holidayRefreshObserver {
+                NotificationCenter.default.removeObserver(holidayRefreshObserver)
+            }
+            if let dayChangeObserver {
+                NotificationCenter.default.removeObserver(dayChangeObserver)
+            }
+            rebuildTask?.cancel()
+            preloadTask?.cancel()
+            reloadTask?.cancel()
+        }
     }
 
     func activate() {
@@ -43,10 +49,14 @@ final class CalendarViewModel: ObservableObject {
     func deactivate() {
         guard isActive else { return }
         isActive = false
-        holidayRefreshTask?.cancel()
-        holidayRefreshTask = nil
-        dayChangeTask?.cancel()
-        dayChangeTask = nil
+        if let holidayRefreshObserver {
+            NotificationCenter.default.removeObserver(holidayRefreshObserver)
+            self.holidayRefreshObserver = nil
+        }
+        if let dayChangeObserver {
+            NotificationCenter.default.removeObserver(dayChangeObserver)
+            self.dayChangeObserver = nil
+        }
         rebuildTask?.cancel()
         preloadTask?.cancel()
         reloadTask?.cancel()
@@ -56,33 +66,36 @@ final class CalendarViewModel: ObservableObject {
     }
 
     private func startHolidayRefreshObservation() {
-        guard holidayRefreshTask == nil else { return }
-        holidayRefreshTask = Task { @MainActor [weak self] in
-            for await notification in NotificationCenter.default.notifications(named: .holidayDataDidRefresh) {
+        guard holidayRefreshObserver == nil else { return }
+        holidayRefreshObserver = NotificationCenter.default.addObserver(
+            forName: .holidayDataDidRefresh,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            let refreshedYear = notification.userInfo?["year"] as? Int
+            Task { @MainActor [weak self] in
                 guard let self else { return }
-                guard self.isActive else { continue }
-                if let refreshedYear = notification.userInfo?["year"] as? Int,
+                guard self.isActive else { return }
+                if let refreshedYear,
                    refreshedYear != CalendarGridBuilder.calendar.component(.year, from: self.displayDate) {
-                    continue
+                    return
                 }
                 await self.handleHolidayRefresh()
-            }
-            await MainActor.run {
-                self?.holidayRefreshTask = nil
             }
         }
     }
 
     private func startDayChangeObservation() {
-        guard dayChangeTask == nil else { return }
-        dayChangeTask = Task { @MainActor [weak self] in
-            for await _ in NotificationCenter.default.notifications(named: .NSCalendarDayChanged) {
+        guard dayChangeObserver == nil else { return }
+        dayChangeObserver = NotificationCenter.default.addObserver(
+            forName: .NSCalendarDayChanged,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
                 guard let self else { return }
-                guard self.isActive else { continue }
+                guard self.isActive else { return }
                 await self.handleDayChange()
-            }
-            await MainActor.run {
-                self?.dayChangeTask = nil
             }
         }
     }
