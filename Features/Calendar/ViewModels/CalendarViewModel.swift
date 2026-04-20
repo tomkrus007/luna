@@ -206,7 +206,7 @@ final class CalendarViewModel: ObservableObject {
         let dateToPreload = displayDate
         let loadedYear = CalendarGridBuilder.calendar.component(.year, from: dateToPreload)
         preloadTask?.cancel()
-        preloadTask = Task {
+        preloadTask = Task { [dateToPreload, loadedYear] in
             await HolidayService.shared.preloadAround(date: dateToPreload, excluding: [loadedYear])
         }
     }
@@ -223,16 +223,15 @@ final class CalendarViewModel: ObservableObject {
         let holidayMap = holidayMap
 
         rebuildTask?.cancel()
-        rebuildTask = Task.detached(priority: .userInitiated) { [weak self, displayDate, selectedDate, holidayMap] in
-            let days = CalendarGridBuilder.makeMonthGrid(displayDate: displayDate, selectedDate: selectedDate, holidays: holidayMap)
+        rebuildTask = Task { [weak self, displayDate, selectedDate, holidayMap] in
+            let days = await Task.detached(priority: .userInitiated) {
+                CalendarGridBuilder.makeMonthGrid(displayDate: displayDate, selectedDate: selectedDate, holidays: holidayMap)
+            }.value
             guard !Task.isCancelled else { return }
-
-            await MainActor.run {
-                guard let self = self else { return }
-                guard self.displayDate == displayDate, self.selectedDate == selectedDate, self.holidayMap == holidayMap else { return }
-                guard self.days != days else { return }
-                self.days = days
-            }
+            guard let self else { return }
+            guard self.displayDate == displayDate, self.selectedDate == selectedDate, self.holidayMap == holidayMap else { return }
+            guard self.days != days else { return }
+            self.days = days
         }
     }
 
@@ -293,7 +292,8 @@ final class CalendarViewModel: ObservableObject {
     private func scheduleReload() {
         reloadTask?.cancel()
         reloadTask = Task { [weak self] in
-            await self?.reload()
+            guard let self else { return }
+            await self.reload()
         }
     }
 }
