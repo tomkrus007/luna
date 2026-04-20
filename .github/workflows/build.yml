@@ -31,6 +31,21 @@ jobs:
 
       - name: Export Archive
         run: |
+          cat > /tmp/ExportOptions.plist << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>mac-application</string>
+          </dict>
+          </plist>
+          EOF
+          xcodebuild -exportArchive \
+            -archivePath ${{ github.workspace }}/build/LunaCalendar.xcarchive \
+            -exportPath ${{ github.workspace }}/build/export \
+            -exportOptionsPlist /tmp/ExportOptions.plist \
+            -allowProvisioningUpdates
           cp -R build/LunaCalendar.xcarchive build/LunaCalendar_${{ github.sha }}.xcarchive
 
       - name: Upload Archive
@@ -43,12 +58,25 @@ jobs:
       - name: Create DMG
         run: |
           hdiutil create -volname "LunaCalendar" \
-            -srcfolder build/LunaCalendar.xcarchive \
+            -srcfolder build/export/LunaCalendar.app \
             -ov -format UDZO build/LunaCalendar.dmg
 
-      - name: Upload DMG
+      - name: Upload DMG (artifact)
         uses: actions/upload-artifact@v4
         with:
           name: LunaCalendar-DMG
           path: build/LunaCalendar.dmg
           retention-days: 30
+
+      - name: Release to GitHub (latest)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest Build
+          prerelease: true
+          make_latest: true
+          files: build/LunaCalendar.dmg
+          body: |
+            Auto-built from commit ${{ github.sha }}.
+            > ⚠️ 未经 Apple 公证，首次打开需在「系统设置 → 隐私与安全性」中手动允许。
