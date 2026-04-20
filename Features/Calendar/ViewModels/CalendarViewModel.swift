@@ -57,7 +57,7 @@ final class CalendarViewModel: ObservableObject {
 
     private func startHolidayRefreshObservation() {
         guard holidayRefreshTask == nil else { return }
-        holidayRefreshTask = Task { [weak self] in
+        holidayRefreshTask = Task { @MainActor [weak self] in
             for await notification in NotificationCenter.default.notifications(named: .holidayDataDidRefresh) {
                 guard let self else { return }
                 guard self.isActive else { continue }
@@ -75,7 +75,7 @@ final class CalendarViewModel: ObservableObject {
 
     private func startDayChangeObservation() {
         guard dayChangeTask == nil else { return }
-        dayChangeTask = Task { [weak self] in
+        dayChangeTask = Task { @MainActor [weak self] in
             for await _ in NotificationCenter.default.notifications(named: .NSCalendarDayChanged) {
                 guard let self else { return }
                 guard self.isActive else { continue }
