@@ -49,6 +49,7 @@ targets:
         SKIP_INSTALL: YES
         PRODUCT_NAME: LunaCalendarWidgetExtension
         APPLICATION_EXTENSION_API_ONLY: YES
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: WIDGET_EXTENSION
 schemes:
   LunaCalendar:
     build:

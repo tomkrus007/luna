@@ -32,7 +32,7 @@ enum HolidayCacheStore {
         AppGroupSupport.setHolidayUpdatedYear(year)
         AppGroupSupport.setLastHolidayRefresh(Date().timeIntervalSince1970, for: year)
         NotificationCenter.default.post(name: .holidayDataDidRefresh, object: nil, userInfo: ["year": year])
-#if canImport(WidgetKit)
+#if canImport(WidgetKit) && !WIDGET_EXTENSION
         WidgetCenter.shared.reloadTimelines(ofKind: "LunaCalendarWidget")
 #endif
     }
