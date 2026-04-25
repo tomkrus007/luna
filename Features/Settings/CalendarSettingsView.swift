@@ -71,6 +71,18 @@ struct CalendarSettingsView: View {
             Section("系统") {
                 Toggle("开机自动运行", isOn: $settingsStore.launchAtLogin)
             }
+
+            Section {
+                Button(role: .destructive) {
+                    NSApplication.shared.terminate(nil)
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text("退出 LunaCalendar")
+                        Spacer()
+                    }
+                }
+            }
         }
         .padding(20)
         .frame(width: 320)
