@@ -21,8 +21,10 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
 
     private struct StatusTextCacheKey: Equatable {
         let dayStart: Date
+        let showDate: Bool
         let showLunar: Bool
         let showWeekday: Bool
+        let simplifiedDate: Bool
     }
 
     private let appModel: AppModel
@@ -269,8 +271,10 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         let dayStart = calendar.startOfDay(for: date)
         let key = StatusTextCacheKey(
             dayStart: dayStart,
+            showDate: appModel.settingsStore.showDate,
             showLunar: appModel.settingsStore.showLunar,
-            showWeekday: appModel.settingsStore.showWeekday
+            showWeekday: appModel.settingsStore.showWeekday,
+            simplifiedDate: appModel.settingsStore.simplifiedDate
         )
 
         if cachedStatusTextKey == key {
@@ -279,13 +283,19 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
 
         var parts: [String] = []
 
-        if appModel.settingsStore.showLunar {
-            parts.append(CalendarConverter.getStatusBarLunarText(for: date))
-        } else {
-            let components = calendar.dateComponents([.month, .day], from: date)
-            let month = components.month ?? 0
-            let day = components.day ?? 0
-            parts.append("\(month)月\(day)日")
+        if appModel.settingsStore.showDate {
+            if appModel.settingsStore.showLunar {
+                parts.append(CalendarConverter.getStatusBarLunarText(for: date))
+            } else {
+                let components = calendar.dateComponents([.month, .day], from: date)
+                let month = components.month ?? 0
+                let day = components.day ?? 0
+                if appModel.settingsStore.simplifiedDate {
+                    parts.append("\(month)-\(day)")
+                } else {
+                    parts.append("\(month)月\(day)日")
+                }
+            }
         }
 
         if appModel.settingsStore.showWeekday {

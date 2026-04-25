@@ -3,8 +3,10 @@ import SwiftUI
 struct MenuBarLabelView: View {
     private struct LabelTextCacheKey: Equatable {
         let dayStart: Date
+        let showDate: Bool
         let showLunar: Bool
         let showWeekday: Bool
+        let simplifiedDate: Bool
     }
 
     @ObservedObject var settingsStore: SettingsStore
@@ -92,8 +94,10 @@ struct MenuBarLabelView: View {
         let dayStart = calendar.startOfDay(for: date)
         let key = LabelTextCacheKey(
             dayStart: dayStart,
+            showDate: settingsStore.showDate,
             showLunar: settingsStore.showLunar,
-            showWeekday: settingsStore.showWeekday
+            showWeekday: settingsStore.showWeekday,
+            simplifiedDate: settingsStore.simplifiedDate
         )
 
         if cachedLabelTextKey == key {
@@ -102,13 +106,19 @@ struct MenuBarLabelView: View {
 
         var parts: [String] = []
 
-        if settingsStore.showLunar {
-            parts.append(CalendarConverter.getStatusBarLunarText(for: date))
-        } else {
-            let components = calendar.dateComponents([.month, .day], from: date)
-            let month = components.month ?? 0
-            let day = components.day ?? 0
-            parts.append("\(month)月\(day)日")
+        if settingsStore.showDate {
+            if settingsStore.showLunar {
+                parts.append(CalendarConverter.getStatusBarLunarText(for: date))
+            } else {
+                let components = calendar.dateComponents([.month, .day], from: date)
+                let month = components.month ?? 0
+                let day = components.day ?? 0
+                if settingsStore.simplifiedDate {
+                    parts.append("\(month)-\(day)")
+                } else {
+                    parts.append("\(month)月\(day)日")
+                }
+            }
         }
 
         if settingsStore.showWeekday {
