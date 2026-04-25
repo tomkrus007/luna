@@ -108,20 +108,7 @@ private final class MonthGridCacheStore: @unchecked Sendable {
 
 private extension Dictionary where Key == String, Value == HolidayItem {
     var signatureValue: Int {
-        let ordered = values.sorted { lhs, rhs in
-            if lhs.dateString == rhs.dateString {
-                return lhs.name < rhs.name
-            }
-            return lhs.dateString < rhs.dateString
-        }
-
-        var hasher = Hasher()
-        for item in ordered {
-            hasher.combine(item.dateString)
-            hasher.combine(item.name)
-            hasher.combine(item.type.rawValue)
-        }
-        return hasher.finalize()
+        count
     }
 }
 
