@@ -25,6 +25,14 @@ final class SettingsStore: ObservableObject {
         didSet { defaults.set(showWeekday, forKey: Keys.showWeekday) }
     }
 
+    @Published var showDate: Bool {
+        didSet { defaults.set(showDate, forKey: Keys.showDate) }
+    }
+
+    @Published var simplifiedDate: Bool {
+        didSet { defaults.set(simplifiedDate, forKey: Keys.simplifiedDate) }
+    }
+
     @Published var launchAtLogin: Bool {
         didSet {
             defaults.set(launchAtLogin, forKey: Keys.launchAtLogin)
@@ -41,6 +49,8 @@ final class SettingsStore: ObservableObject {
         self.showTime = defaults.object(forKey: Keys.showTime) as? Bool ?? true
         self.showSeconds = defaults.object(forKey: Keys.showSeconds) as? Bool ?? false
         self.showWeekday = defaults.object(forKey: Keys.showWeekday) as? Bool ?? true
+        self.showDate = defaults.object(forKey: Keys.showDate) as? Bool ?? true
+        self.simplifiedDate = defaults.object(forKey: Keys.simplifiedDate) as? Bool ?? false
         self.launchAtLogin = defaults.object(forKey: Keys.launchAtLogin) as? Bool ?? LaunchAtLoginService.shared.isEnabled
     }
 
@@ -50,6 +60,8 @@ final class SettingsStore: ObservableObject {
         static let showTime = "settings.showTime"
         static let showSeconds = "settings.showSeconds"
         static let showWeekday = "settings.showWeekday"
+        static let showDate = "settings.showDate"
+        static let simplifiedDate = "settings.simplifiedDate"
         static let launchAtLogin = "settings.launchAtLogin"
     }
 }
