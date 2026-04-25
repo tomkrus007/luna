@@ -116,7 +116,7 @@ struct CalendarWidgetView: View {
     }
 
     private var largeWidget: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 8) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(entry.monthTitle)
@@ -144,7 +144,7 @@ struct CalendarWidgetView: View {
                 }
             }
 
-            LazyVGrid(columns: Self.largeColumns, spacing: 6) {
+            LazyVGrid(columns: Self.largeColumns, spacing: 4) {
                 ForEach(Self.weekdayTitles.indices, id: \.self) { index in
                     Text(Self.weekdayTitles[index])
                         .font(.system(size: 11, weight: .semibold))
@@ -169,23 +169,23 @@ struct CalendarWidgetView: View {
                         }
 
                         VStack(spacing: 0) {
-                            Spacer(minLength: 6)
+                            Spacer(minLength: 4)
 
                             Text(day.solarText)
-                                .font(.system(size: 18, weight: .semibold))
+                                .font(.system(size: 15, weight: .semibold))
                                 .foregroundStyle(primaryTextColor(for: day))
 
                             Text(day.secondaryText)
-                                .font(.system(size: 10, weight: .regular))
+                                .font(.system(size: 9, weight: .regular))
                                 .foregroundStyle(secondaryTextColor(for: day))
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.75)
 
-                            Spacer(minLength: 4)
+                            Spacer(minLength: 3)
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
-                    .frame(height: 52)
+                    .frame(height: 44)
                     .overlay {
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
                             .stroke(selectionStrokeColor(for: day), lineWidth: selectionStrokeWidth(for: day))
@@ -193,7 +193,7 @@ struct CalendarWidgetView: View {
                 }
             }
         }
-        .padding(14)
+        .padding(12)
         .containerBackground(.background, for: .widget)
         .widgetURL(AppRoute.url(for: entry.summaryDay.date))
     }
