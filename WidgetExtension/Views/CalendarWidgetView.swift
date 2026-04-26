@@ -117,33 +117,6 @@ struct CalendarWidgetView: View {
 
     private var largeWidget: some View {
         VStack(spacing: 8) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(entry.monthTitle)
-                        .font(.headline)
-
-                    HStack(spacing: 6) {
-                        Text(largeWeekdayText)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-
-                        badge(for: entry.summaryDay.holidayType)
-                    }
-                }
-
-                Spacer(minLength: 12)
-
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text(entry.summaryDay.solarText)
-                        .font(.system(size: 42, weight: .bold, design: .rounded))
-
-                    Text(largeHeaderLunarText)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                }
-            }
-
             LazyVGrid(columns: Self.largeColumns, spacing: 4) {
                 ForEach(Self.weekdayTitles.indices, id: \.self) { index in
                     Text(Self.weekdayTitles[index])
