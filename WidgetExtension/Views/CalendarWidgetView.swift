@@ -77,10 +77,10 @@ struct CalendarWidgetView: View {
                         if let holidayType = day.holidayType {
                             Text(holidayType.badgeText)
                                 .font(.system(size: 7, weight: .bold))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(badgeTextColor(for: holidayType))
                                 .padding(.horizontal, 1.5)
                                 .padding(.vertical, 0.5)
-                                .background(holidayType == .holiday ? Color.red : Color(white: 0.6))
+                                .background(badgeBackgroundColor(for: holidayType))
                                 .clipShape(RoundedRectangle(cornerRadius: 1.5, style: .continuous))
                                 .padding(1.5)
                         }
@@ -133,10 +133,10 @@ struct CalendarWidgetView: View {
                         if let holidayType = day.holidayType {
                             Text(holidayType.badgeText)
                                 .font(.system(size: 8, weight: .bold))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(badgeTextColor(for: holidayType))
                                 .padding(.horizontal, 2)
                                 .padding(.vertical, 1)
-                                .background(holidayType == .holiday ? Color.red : Color(white: 0.6))
+                                .background(badgeBackgroundColor(for: holidayType))
                                 .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
                                 .padding(3)
                         }
@@ -176,12 +176,26 @@ struct CalendarWidgetView: View {
         if let type {
             Text(type.badgeText)
                 .font(.system(size: 9, weight: .bold))
-                .foregroundStyle(.white)
+                .foregroundStyle(badgeTextColor(for: type))
                 .padding(.horizontal, 4)
                 .padding(.vertical, 2)
-                .background(type == .holiday ? Color.red : Color(white: 0.6))
+                .background(badgeBackgroundColor(for: type))
                 .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
         }
+    }
+
+    private func badgeBackgroundColor(for type: HolidayType) -> Color {
+        if renderingMode == .fullColor {
+            return type == .holiday ? Color.red : Color(white: 0.6)
+        }
+        return type == .holiday ? Color.red : Color.primary.opacity(0.55)
+    }
+
+    private func badgeTextColor(for type: HolidayType) -> Color {
+        if renderingMode == .fullColor {
+            return .white
+        }
+        return type == .holiday ? .white : Color(nsColor: .windowBackgroundColor)
     }
 
     private func backgroundColor(for day: CalendarDayItem) -> Color {
