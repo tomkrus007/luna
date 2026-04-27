@@ -188,14 +188,14 @@ struct CalendarWidgetView: View {
         if renderingMode == .fullColor {
             return type == .holiday ? Color.red : Color(white: 0.6)
         }
-        return type == .holiday ? Color.red : Color.primary.opacity(0.55)
+        return Color.primary.opacity(0.55)
     }
 
     private func badgeTextColor(for type: HolidayType) -> Color {
         if renderingMode == .fullColor {
             return .white
         }
-        return type == .holiday ? .white : Color(nsColor: .windowBackgroundColor)
+        return Color(nsColor: .windowBackgroundColor)
     }
 
     private func backgroundColor(for day: CalendarDayItem) -> Color {
